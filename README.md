@@ -1,5 +1,5 @@
 # Ohjelmistotekniikan harjoitustyö
-Repositorio **ohjelmistotekniikan** harjoitustyölle.
+Repositorio **ohjelmistotekniikan** harjoitustyölle. Epäsynkrooni.
 
 ## **Viikkotehtävät**
 ### Viikko 1
