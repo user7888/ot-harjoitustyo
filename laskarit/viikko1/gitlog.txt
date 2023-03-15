@@ -1,0 +1,104 @@
+commit a88309e9450220120786624129a0483bf7a60688
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:59:45 2023 +0200
+
+    nimetty uudelleen
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 4521b22b4f49048c80d047593cfdc249b617d4b4
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:56:46 2023 +0200
+
+    uusi hakemisto tiedostoja
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit df180f2757d05cd76b904dbbfde2a247fa639308
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:44:21 2023 +0200
+
+    muutama muutos
+
+ eka.txt    | 1 +
+ kolmas.txt | 2 ++
+ 2 files changed, 3 insertions(+)
+
+commit 101114601d8d210490cd1343b98c05c9bd49f7b4
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:43:09 2023 +0200
+
+    tiedoston nimi muutettu
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 48514f95b329770613927c2e4ed4402e9598d997
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:41:23 2023 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 04434b47d63721e2cd98fbf558ef5303d2193816
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:37:39 2023 +0200
+
+    pieni lisäys
+
+ tiedosto.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit bc1bad621ec76502479b7d5216a37b9dafa8f499
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:36:21 2023 +0200
+
+    iso lisäys
+
+ tiedosto.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 61ccee53d8de54b0ff525315d4c43cb9e8bb1165
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:30:10 2023 +0200
+
+    pieniä muutoksia
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 2f12fbc60464ebc694de51c2b24386863653a84c
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:28:50 2023 +0200
+
+    kolmas lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 1c353af326ac6ba5beac0510d1af2f5ccac2c571
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:26:12 2023 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 2 ++
+ toinen.txt   | 0
+ 2 files changed, 2 insertions(+)
+
+commit f1451145485a3e9432ee8d315b7530cc39ca49fd
+Author: Elias Junno <junnoelias@gmail.com>
+Date:   Tue Mar 14 13:19:06 2023 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
