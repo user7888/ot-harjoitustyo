@@ -8,6 +8,6 @@ viikkotehtäville.
 [gitlog.txt](laskarit/viikko1/gitlog.txt)
 
 ### Viikko 2
-[vaatimusmäärittely](laskarit/viikko2/vaatimusmaarittely.md)\
-[työaikakirjanpito](laskarit/viikko1/tuntikirjanpito.md)
+[vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)\
+[työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)
 
