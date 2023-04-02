@@ -2,6 +2,11 @@
 Repositorio **ohjelmistotekniikan** harjoitustyölle ja
 viikkotehtäville.
 
+## **Harjoitustyö**
+[vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)\
+[työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)\
+[changelog](dokumentaatio/changelog.md)
+
 ## **Viikkotehtävät**
 ### Viikko 1
 [komentorivi.txt](laskarit/viikko1/komentorivi.txt)\
