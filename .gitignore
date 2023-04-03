@@ -1,0 +1,6 @@
+.pytest_cache
+htmlcov
+.coverage
+muistiinpanot.txt
+ideat.txt
+__pycache__
