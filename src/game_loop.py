@@ -13,6 +13,11 @@ class GameLoop:
             if self._handle_events() == False:
                 break
             
+            # Time/ticks elapsed since game start.
+            current_time = self._clock.get_ticks()
+            
+            # Update and render
+            self._map.update(current_time)
             self._render()
             self._clock.tick(FPS)
     

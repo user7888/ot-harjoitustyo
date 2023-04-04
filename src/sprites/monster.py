@@ -19,5 +19,11 @@ class Monster(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+        self.previous_move_time = 0
         self.hitpoints = 20
         self.movement_speed = 10
+
+    # Check if more than 0,7s have passed since this
+    # monster was last moved.
+    def should_move(self, current_time):
+        return current_time - self.previous_move_time >= 700
