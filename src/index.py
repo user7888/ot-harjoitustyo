@@ -4,6 +4,7 @@ from game_loop import GameLoop
 from renderer import Renderer
 from clock import Clock
 from event_queue import EventQueue
+from utils.main_menu import MainMenu
 
 MAP = [[2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
@@ -29,11 +30,17 @@ def main():
     event_queue = EventQueue()
     renderer = Renderer(display, map)
     clock = Clock()
-    game_loop = GameLoop(map, clock, renderer, event_queue)
+    game_loop = GameLoop(map, clock, renderer, event_queue, display)
+    main_menu = MainMenu(clock, event_queue, display, game_loop)
 
     # Start game.
     pygame.init()
-    game_loop.start()
+    
+    # Old
+    #main_menu(display, game_loop)
+    #game_loop.start()
+
+    main_menu.start()
 
 if __name__ == "__main__":
     main()
