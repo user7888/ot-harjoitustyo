@@ -16,7 +16,7 @@ from pygame.locals import (
 )
 
 class GameLoop:
-    def __init__(self, map, clock, renderer, event_queue, display):
+    def __init__(self, map, clock, renderer, event_queue, display, main_menu, pause_menu):
         self._map = map
         self._clock = clock
         self._renderer = renderer
@@ -26,22 +26,28 @@ class GameLoop:
         self.state_playing = False
         self.display = display
 
+        self.main_menu = main_menu
+        self.pause_menu = pause_menu
+        self.states = {'initialized': 'Game is initialized', 
+                       'main menu': 'Game is in main menu',
+                       'running': 'Game is running',
+                       'paused': 'Game is in pause menu',
+                       'terminated': 'Game is exiting'}
+        
+        self.current_state = 'initialized'
+
     
     def start(self):
-        #print("starting game loop")
-        #if self.state_main_menu:
-        #    self._main_menu()
-
         while True:
             handler_response = self._handle_events()
-            if handler_response == False:
-                print("exiting game loop")
-                # Use break or return False to
-                # main menu loop
+
+            if self.current_state == 'terminated':
                 break
-            elif handler_response == -1:
-                return -1
-            
+            elif self.current_state == 'initialized':
+                self._open_main_menu()
+            elif self.current_state == 'main menu':
+                self._open_main_menu()
+
             MOUSE_POSITION = pygame.mouse.get_pos()
             
             # Time/ticks elapsed since game start.
@@ -54,13 +60,35 @@ class GameLoop:
     
     def _handle_events(self):
         for event in pygame.event.get():
-            # Check if a escape is pressed
+            # Game is paused with escape key.
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    return False
+                    self.current_state = 'paused'
+                    self._pause_game()
+                    return
 
             if event.type == pygame.QUIT:
-                return -1
+                self.current_state = 'terminated'
+                return
 
     def _render(self):
         self._renderer.render()
+    
+    def _pause_game(self):
+        return_value = self.pause_menu.start()
+
+        if return_value == 'resume':
+            self.current_state = 'running'
+        elif return_value == 'exit':
+            self.current_state = 'main menu'
+        elif return_value == 'quit':
+            self.current_state = 'terminated'
+    
+    def _open_main_menu(self):
+        return_value = self.main_menu.start()
+
+        if return_value == 'start':
+            self.current_state = 'running'
+        elif return_value == 'quit':
+            self.current_state = 'terminated'
+

@@ -5,6 +5,7 @@ from renderer import Renderer
 from clock import Clock
 from event_queue import EventQueue
 from utils.main_menu import MainMenu
+from utils.pause_menu import PauseMenu
 
 MAP = [[2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
@@ -30,17 +31,22 @@ def main():
     event_queue = EventQueue()
     renderer = Renderer(display, map)
     clock = Clock()
-    game_loop = GameLoop(map, clock, renderer, event_queue, display)
-    main_menu = MainMenu(clock, event_queue, display, game_loop)
+
+    main_menu = MainMenu(clock, event_queue, display)
+    pause_menu = PauseMenu(clock, event_queue, display)
+
+    game_loop = GameLoop(map, 
+                         clock, 
+                         renderer, 
+                         event_queue, 
+                         display, 
+                         main_menu, 
+                         pause_menu)
+
 
     # Start game.
     pygame.init()
-    
-    # Old
-    #main_menu(display, game_loop)
-    #game_loop.start()
-
-    main_menu.start()
+    game_loop.start()
 
 if __name__ == "__main__":
     main()
