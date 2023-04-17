@@ -3,17 +3,20 @@ import random
 from sprites.monster import Monster
 from sprites.floor import Floor
 from sprites.ground import Ground
+from sprites.tower import Tower
 
 class Map:
     def __init__(self, level_map, cell_size):
         self.cell_size = cell_size
+        self.level_map = level_map
 
         self.ground_tiles = pygame.sprite.Group()
         self.floors = pygame.sprite.Group()
         self.monsters = pygame.sprite.Group()
+        self.towers = pygame.sprite.Group()
 
         self.all_sprites = pygame.sprite.Group()
-        
+
         self._initialize_sprites(level_map)
         return
 
@@ -27,7 +30,7 @@ class Map:
                 cell = level_map[y][x]
                 normalized_x = x * self.cell_size
                 normalized_y = y * self.cell_size
-            
+
                 # Determine sprites here.
                 if cell == 0:
                     # Ground tile
@@ -39,29 +42,72 @@ class Map:
                     # Monster tile
                     self.monsters.add(Monster(normalized_x, normalized_y))
                     self.floors.add(Ground(normalized_x, normalized_y))
-        
+                elif cell == 3:
+                    self.ground_tiles.add(Ground(normalized_x, normalized_y))
+                    self.floors.add(Ground(normalized_x, normalized_y))
+                    self.towers.add(Tower(normalized_x, normalized_y))
+
         self.all_sprites.add(
             self.ground_tiles,
             self.floors,
-            self.monsters
+            self.monsters,
+            self.towers
         )
-    
+
     def update(self, current_time):
         for monster in self.monsters:
             if monster.should_move(current_time):
                 self.move_monster_pixel(monster)
                 monster.previous_move_time = current_time
-    
+        
+
+
     def move_monster_cell(self, dx=0, dy=0):
         # All monsters are in a pygame sprite group.
         monster_list = self.monsters.sprites()
         monster_list[0].rect.move_ip(dx, dy)
-    
+
     def move_monster_pixel(self, monster):
-        directions = {"UP": (10, 0), "DOWN": (-10, 0), "RIGHT": (0, 10), "LEFT": (0, -10)}
+        #print("monster was moved")
+        directions = {"UP": (10, 0), "DOWN": (-10, 0),
+                      "RIGHT": (0, 10), "LEFT": (0, -10)}
         direction = random.choice(list(directions.keys()))
         monster.rect.move_ip(directions[direction])
-        
-    
 
-    
+    # def move_monster_pixel_new(self, monster, destination):
+    #     # if monster reaches destination, only then update
+    #     # new destination for monster.
+
+    #     current_location = monster.currrent_location()
+    #     new_location = (current_location[0]+2, current_location[1]+2)
+    #     final_location = current_location
+
+    #     if new_location[0] <= monster.current_destination[0]:
+    #         final_location[0] = new_location[0]
+    #     if new_location[1] >= monster.current_destination[1]:
+    #         final_location[1] = new_location[1]
+
+    #     monster.rect.move_ip(final_location)
+
+    def place_tower(self, tower):
+        mouse_position = pygame.mouse.get_pos()
+
+        cell_x = (mouse_position[0] // 64)
+        cell_y = (mouse_position[1] // 64)
+        print("mouse click pixel", mouse_position)
+        print("mouse click cell", cell_x, cell_y)
+
+        self.level_map[cell_y][cell_x] = 3
+
+        new_tower = Tower(cell_x * self.cell_size, cell_y * self.cell_size)
+        self.towers.add(new_tower)
+        self.all_sprites.add(new_tower)
+
+
+
+
+
+
+
+
+
