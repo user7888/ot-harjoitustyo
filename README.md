@@ -6,6 +6,7 @@ viikkotehtäville.
 [vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)\
 [työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)\
 [changelog](dokumentaatio/changelog.md)
+[arkkitehtuurikuvaus](dokumentaatio/arkkitehtuuri.md)
 
 ## **Käynnistys**
 1. Asenna riippuvuudet
