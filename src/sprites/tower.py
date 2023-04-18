@@ -6,7 +6,6 @@ dirname = os.path.dirname(__file__)
 
 # Inherit the Sprite-class
 
-
 class Tower(pygame.sprite.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
