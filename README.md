@@ -5,7 +5,7 @@ viikkotehtäville.
 ## **Dokumentaatio**
 [vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)\
 [työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)\
-[changelog](dokumentaatio/changelog.md)
+[changelog](dokumentaatio/changelog.md)\
 [arkkitehtuurikuvaus](dokumentaatio/arkkitehtuuri.md)
 
 ## **Käynnistys**

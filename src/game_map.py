@@ -61,10 +61,10 @@ class Map:
                 self.move_monster_pixel(monster)
                 monster.previous_move_time = current_time
 
-    def move_monster_cell(self, delta_x=0, delta_y=0):
+    def move_monster_cell(self, dx=0, dy=0):
         # All monsters are in a pygame sprite group.
         monster_list = self.monsters.sprites()
-        monster_list[0].rect.move_ip(delta_x, delta_y)
+        monster_list[0].rect.move_ip(dx, dy)
 
     def move_monster_pixel(self, monster):
         #print("monster was moved")
