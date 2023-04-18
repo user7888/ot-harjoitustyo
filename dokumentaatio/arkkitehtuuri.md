@@ -38,5 +38,6 @@
       }
       class Sprite{
       }
-      class Controller{}
+      class Controller{
+      }
 ```
