@@ -63,7 +63,7 @@ class GameLoop:
                 self.controller.set_state_terminated()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                self._map.place_tower("some")
+                self._map.place_tower()
 
     def _render(self):
         self._renderer.render()

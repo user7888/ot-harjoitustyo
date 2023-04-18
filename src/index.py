@@ -31,7 +31,7 @@ def main():
     # Form all objects.
     game_map = Map(MAP, CELL_SIZE)
     event_queue = EventQueue()
-    renderer = Renderer(display, map)
+    renderer = Renderer(display, game_map)
     clock = Clock()
 
     controller = Controller()
