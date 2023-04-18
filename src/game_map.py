@@ -1,9 +1,10 @@
-import pygame
 import random
+import pygame
 from sprites.monster import Monster
 from sprites.floor import Floor
 from sprites.ground import Ground
 from sprites.tower import Tower
+from sprites.hover_outline import HoverOutline
 
 class Map:
     def __init__(self, level_map, cell_size):
@@ -15,10 +16,10 @@ class Map:
         self.monsters = pygame.sprite.Group()
         self.towers = pygame.sprite.Group()
 
+        self.outlines = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
 
         self._initialize_sprites(level_map)
-        return
 
     # Initialize all sprites
     def _initialize_sprites(self, level_map):
@@ -59,13 +60,11 @@ class Map:
             if monster.should_move(current_time):
                 self.move_monster_pixel(monster)
                 monster.previous_move_time = current_time
-        
 
-
-    def move_monster_cell(self, dx=0, dy=0):
+    def move_monster_cell(self, delta_x=0, delta_y=0):
         # All monsters are in a pygame sprite group.
         monster_list = self.monsters.sprites()
-        monster_list[0].rect.move_ip(dx, dy)
+        monster_list[0].rect.move_ip(delta_x, delta_y)
 
     def move_monster_pixel(self, monster):
         #print("monster was moved")
@@ -89,11 +88,11 @@ class Map:
 
     #     monster.rect.move_ip(final_location)
 
-    def place_tower(self, tower):
+    def place_tower(self):
         mouse_position = pygame.mouse.get_pos()
 
-        cell_x = (mouse_position[0] // 64)
-        cell_y = (mouse_position[1] // 64)
+        cell_x = mouse_position[0] // 64
+        cell_y = mouse_position[1] // 64
         print("mouse click pixel", mouse_position)
         print("mouse click cell", cell_x, cell_y)
 
@@ -103,11 +102,14 @@ class Map:
         self.towers.add(new_tower)
         self.all_sprites.add(new_tower)
 
+    def hover_effect(self):
+        mouse_position = pygame.mouse.get_pos()
 
+        cell_x = mouse_position[0] // 64
+        cell_y = mouse_position[1] // 64
 
+        for item in self.outlines:
+            item.kill()
+        hover = HoverOutline(cell_x * self.cell_size, cell_y * self.cell_size)
 
-
-
-
-
-
+        self.outlines.add(hover)

@@ -1,5 +1,5 @@
-import pygame
 import os
+import pygame
 
 # Location of this file
 dirname = os.path.dirname(__file__)
@@ -30,6 +30,7 @@ class Monster(pygame.sprite.Sprite):
         self.current_destination = (0, 0)
 
     # Check if more than 0,7s have passed since this
+
     # monster was last moved.
     def should_move(self, current_time):
         return current_time - self.previous_move_time >= 700
@@ -37,29 +38,23 @@ class Monster(pygame.sprite.Sprite):
     def current_location(self):
         return (self.rect.x, self.rect.y)
 
-    def find_new_path(self, map):
+    def find_new_path(self, game_map):
         starting_point_x = 0
         starting_point_y = 0
         cell_size = 64
 
-        width = len(map[0])
-        height = len(map)
-
         destination_x = 0
         destination_y = 0
-        destination_cell_x = 0
         destination_cell_y = 0
 
         # for y in range(width):
         #    for x in range(height):
 
-        if map[starting_point_x+1] == 1:
+        if game_map[starting_point_x+1] == 1:
             destination_x = (starting_point_x+1) * cell_size
             destination_y = starting_point_y
 
-            destination_cell_x = 0
-            destination_cell_y
-        elif map[starting_point_y+1] == 1:
+        elif game_map[starting_point_y+1] == 1:
             destination_x = starting_point_x
             destination_y = (starting_point_y+1) * cell_size
 

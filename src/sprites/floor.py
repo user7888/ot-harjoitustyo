@@ -1,5 +1,5 @@
-import pygame
 import os
+import pygame
 
 # Location of this file
 dirname = os.path.dirname(__file__)

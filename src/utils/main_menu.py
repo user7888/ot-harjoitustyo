@@ -1,10 +1,3 @@
-import pygame
-from utils.button import Button
-import os
-
-dirname = os.path.dirname(__file__)
-FPS = 60
-
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -14,12 +7,21 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
+import pygame
+from utils.button import Button
+import os
+
+dirname = os.path.dirname(__file__)
+FPS = 60
+
 
 class MainMenu:
-    def __init__(self, clock, event_queue, display):
+    def __init__(self, clock, event_queue, display, controller):
         self._clock = clock
         self._event_queue = event_queue
         self.display = display
+        self.controller = controller
+
 
         self.start_button = Button(270, 70, pygame.image.load(
             os.path.join(dirname, "..", "assets", "start_button.png")
@@ -29,14 +31,15 @@ class MainMenu:
             os.path.join(dirname, "..", "assets", "quit_button.png")
         ))
 
-        self.mouse_position = pygame.mouse.get_pos()
+        self.mouse_position = None
         self.menu_state = 'Empty'
-    
+
     def start(self):
         while True:
-            if self._handle_events() == False:
-                return self.menu_state
+            game_state = self.controller.get_game_state()
+            if game_state != 'main menu':
                 break
+            self._handle_events()
             
             # Old screen was left in the background
             # and start button drawn over it. Now
@@ -50,18 +53,27 @@ class MainMenu:
 
             self._clock.tick(FPS)
             pygame.display.update()
-    
+
     def _handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.menu_state = 'quit'
+                self._handle_pygame_quit()
                 return False
-            
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.start_button.checkForInput(self.mouse_position):
-                    self.menu_state = 'start'
+                    self._handle_start_button()
                     return False
-                
+
                 if self.quit_button.checkForInput(self.mouse_position):
-                    self.menu_state = 'quit'
+                    self._handle_quit_button()
                     return False
+    
+    def _handle_pygame_quit(self):
+        self.controller.set_state_terminated()
+    
+    def _handle_start_button(self):
+        self.controller.set_state_running()
+    
+    def _handle_quit_button(self):
+        self.controller.set_state_terminated()
