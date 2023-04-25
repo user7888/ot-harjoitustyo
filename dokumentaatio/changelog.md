@@ -20,3 +20,12 @@
   tornien toiminnallisuudesta.
 - Testattu, että valikoiden käyttämä Controller-luokka vaihtaa pelin 
   tilaa oikein.
+
+## Viikko 5
+- Hirviöiden liikkuminen. Hirviöt voivat liikkua pelikartalla polkua pitkin.
+- Lisätty alustava Projectile-luokka. Luokka vastaa tornien ampumien
+  ammusten toiminnallisuudesta.
+- Lisätty BuildMenu-luokka. Luokka toimii pelin pääkäyttöliittymänä. Pääkäyttö-
+  liittymä näytetään näytön vasemmassa reunassa pelikartan vierellä. Sen kautta
+  pelaaja voi esimerkiksi rakentaa ja myydä torneja.
+- Testattu, että hirviöiden liikuttaminen pelikartalla toimii oikein.

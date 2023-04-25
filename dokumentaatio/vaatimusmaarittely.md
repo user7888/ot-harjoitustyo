@@ -9,12 +9,20 @@ erilaisia torneja rakentamalla muodostaa puolustus hirviölaumoja vastaan!
   hirviölauman koko kasvaa ja peli muuttuu vaikeammaksi.
 - Pelaaja voi rakentaa torneja sijoittamalla niitä kartalle.
   Näin pelaaja muodostaa puolustuksen hirviöitä vastaan.
+      
+      Tilanne: Pelaaja voi rakentaa ja myydä torneja.
+
 - Torneja on useampaa eri tyyppiä (1-3 kpl). Jokaisella
   tornilla on omat ominaisuutensa.
 - Pelaaja voi ansaita rahaa. Pelaaja ansaitsee rahaa
   surmaamalla hirviötä.
 - Pelaaja voi päivittää torneja. Päivittäminen maksaa 
   rahaa ja parantaa tornin ominaisuuksia.
+- Pelissä on valikkojärjestelmä. Päävalikko, josta pelin voi
+  käynnistää sekä paussivalikko, joka näytetään pelaajalle
+  kun pelaaja keskeyttää pelin.
+
+        Tilanne: Päävalikko ja paussivalikko valmiita.
 
 ## Jatkokehitysideoita
 - Enemmän torneja joilla on uusia ominaisuuksia (1-5 kpl). 

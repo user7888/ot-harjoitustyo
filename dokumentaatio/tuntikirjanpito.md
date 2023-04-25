@@ -2,9 +2,9 @@
 
 | päivä | aika | tehty                      |
 | :----:|:-----| :--------------------------|
-| 31.3  | 1h   | projektin aloitus          |
-| 31.3  | 0.5h | asset-asioiden selvittely  |
-| 31.3  | 0.5h | debuggaus                  |
+| 31.3  | 1h   | Projektin aloitus          |
+| 31.3  | 0.5h | Asset-asioiden selvittely  |
+| 31.3  | 0.5h | Debuggaus                  |
 | 31.3  | 1h   | Monster ja Map-luokat      |
 | 1.4   | 1h   | Map-luokan kehittäminen    |
 | 1.4   | 1h   | Testit Map-luokalle        |
@@ -26,9 +26,16 @@
 | 17.4  | 1h   | Menujen parantelu ja refkt.|
 | 17.4  | 1h   | --//-- Controller-luokka   |
 | 18.4  | 2h   | Tower-luokka ja grafiikka  |
+| 19.4  | 2h   | Projectile-luokka ja graf. |
+| 22.4  | 2h   | Monstereiden liikkuminen   |
+| 23.4  | 1h   | Monstereiden liikkuminen   |
+| 24.4  | 2h   | Side menun tekeminen       |
+| 24.4  | 1h   | Side menun grafiikka       |
+| 25.4  | 1h   | Side menu, lisää toimintoja|
+| 25.4  | 1h   | Tornien rakennus ja myynti |
 
 |       | Yht. |                            |
-|       | 24.5h|                            |
+|       | 34.5h|                            |
 
 
 
