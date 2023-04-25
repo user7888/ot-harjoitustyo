@@ -8,4 +8,6 @@ class Renderer:
     def render(self):
         self._level.all_sprites.draw(self._display)
         self._level.outlines.draw(self._display)
+
+        self._level.projectiles.draw(self._display)
         pygame.display.update()

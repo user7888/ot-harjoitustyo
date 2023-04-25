@@ -27,13 +27,8 @@ class Monster(pygame.sprite.Sprite):
         self.movement_speed = 1
 
         self.set_destination_reached = False
-        self.current_waypoint = 8
+        self.current_waypoint = 1
         self.current_destination = (0, 0)
-
-    # Check if more than 0,7s have passed since this
-    # monster was last moved.
-    def should_move(self, current_time):
-        return current_time - self.previous_move_time >= 700
     
     def set_destination(self):
         waypoints = {1: (5, 510),
@@ -59,7 +54,6 @@ class Monster(pygame.sprite.Sprite):
                 self.current_waypoint += 1
             self.set_destination_reached = False
             self.current_destination = waypoints[self.current_waypoint]
-            print("set destination to:", self.current_waypoint)
     
     def move(self):
         negative_x = False
@@ -84,5 +78,3 @@ class Monster(pygame.sprite.Sprite):
     
     def current_location(self):
         return (self.rect.x, self.rect.y)
-
-

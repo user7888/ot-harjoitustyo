@@ -5,8 +5,7 @@ from sprites.floor import Floor
 from sprites.ground import Ground
 from sprites.tower import Tower
 from sprites.hover_outline import HoverOutline
-
-from utils.projectile import Projectile
+from objects.projectile import Projectile
 
 class Map:
     def __init__(self, level_map, cell_size):
@@ -69,19 +68,19 @@ class Map:
             monster.move()
             for tower in self.towers:
                 tower.check_if_monster_is_in_range(monster)
-        
+
         for projectile in self.projectiles:
             # update sets the new coordinates
             # for projectile sprite. Projectile
             # is drawn in renderer with sprite
             # group draw
-            response = projectile.update2()
+            response = projectile.update()
 
             # If projectile reached target
-            if response == True:
+            if response is True:
                 projectile.delete()
-                
-            #projectile.rect.move_ip(move_x, move_y)            
+
+            #projectile.rect.move_ip(move_x, move_y)
             #projectile.rect.update()
 
 
@@ -119,7 +118,6 @@ class Map:
     def place_tower(self):
         mouse_position = pygame.mouse.get_pos()
         if mouse_position[0] > 768:
-            print("mouse click outside game map")
             return
 
         cell_x = mouse_position[0] // 64
@@ -151,8 +149,12 @@ class Map:
         hover = HoverOutline(cell_x * self.cell_size, cell_y * self.cell_size)
 
         self.outlines.add(hover)
-    
+
     def shoot(self):
+        mouse_position = pygame.mouse.get_pos()
+        if mouse_position[0] > 768:
+            return
+
         mouse_position = pygame.mouse.get_pos()
 
         new_projectile = Projectile(100, 100, mouse_position[0], mouse_position[1], 3, 3)

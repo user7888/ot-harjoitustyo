@@ -4,6 +4,7 @@ from pygame.locals import (
     KEYDOWN,
 )
 import pygame
+from utils.build_menu import BuildMenu
 
 FPS = 60
 dirname = os.path.dirname(__file__)
@@ -11,7 +12,7 @@ dirname = os.path.dirname(__file__)
 
 class GameLoop:
     def __init__(self, game_map, clock, renderer, event_queue,
-                 display, main_menu, pause_menu, controller):
+                 display, main_menu, pause_menu, controller, player):
 
         self._map = game_map
         self._clock = clock
@@ -19,13 +20,18 @@ class GameLoop:
         self._event_queue = event_queue
         self.display = display
         self.controller = controller
+        self.player = player
 
         self.main_menu = main_menu
         self.pause_menu = pause_menu
+        self.build_menu = BuildMenu(clock, event_queue, display, controller)
+        self.mouse_position = pygame.mouse.get_pos()
+
 
     def start(self):
         while True:
             game_state = self.controller.get_game_state()
+            self.mouse_position = pygame.mouse.get_pos()
             self._handle_events()
 
             if game_state == 'terminated':
@@ -52,6 +58,10 @@ class GameLoop:
             self._clock.tick(FPS)
             self._map.hover_effect()
 
+            # Side menu rendering
+            self.build_menu.draw()
+            pygame.display.update()
+
     def _handle_events(self):
         for event in pygame.event.get():
             # Game is paused with escape key.
@@ -63,7 +73,25 @@ class GameLoop:
                 self.controller.set_state_terminated()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                self._map.place_tower()
+                self._map.shoot()
+
+                # Side menu inputs.
+                if self.build_menu.buy_button.checkForInput(self.mouse_position):
+                    self.build_menu.handle_buy_button(self.player)
+                elif self.build_menu.sell_button.checkForInput(self.mouse_position):
+                    self.build_menu.handle_sell_button(self.player)
+                elif self.build_menu.build_button.checkForInput(self.mouse_position):
+                    self.build_menu.handle_build_button(self.player)
+
+                # Building.
+                if self.build_menu.get_current_state() == "building":
+                    self._map.place_tower()
+
+                # Game sprite inputs.
+                for tower in self._map.towers:
+                    click = tower.tower_was_clicked(self.build_menu.get_current_state())
+                    if click:
+                        self.build_menu.handle_tower_click(self.player, tower)
 
     def _render(self):
         self._renderer.render()

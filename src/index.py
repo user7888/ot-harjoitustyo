@@ -7,16 +7,17 @@ from event_queue import EventQueue
 from utils.main_menu import MainMenu
 from utils.pause_menu import PauseMenu
 from utils.controller import Controller
+from objects.player import Player
 
-MAP = [[2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-       [1, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0,],
+MAP = [[2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-       [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,],
-       [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,],
-       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,],
-       [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0,],
-       [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1,],
-       [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,]]
+       [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,],
+       [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,],
+       [0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1,],
+       [0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1,],
+       [0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1,],
+       [0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1,],
+       [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,]]
 
 CELL_SIZE = 64
 
@@ -24,8 +25,9 @@ CELL_SIZE = 64
 def main():
     height = len(MAP)
     width = len(MAP[0])
+    side_menu_width = 300
 
-    display = pygame.display.set_mode((width * CELL_SIZE, height * CELL_SIZE))
+    display = pygame.display.set_mode((width * CELL_SIZE + side_menu_width, height * CELL_SIZE))
     pygame.display.set_caption("Tower Defense")
 
     # Form all objects.
@@ -33,11 +35,13 @@ def main():
     event_queue = EventQueue()
     renderer = Renderer(display, game_map)
     clock = Clock()
+    player = Player()
 
     controller = Controller()
     main_menu = MainMenu(clock, event_queue, display, controller)
     pause_menu = PauseMenu(clock, event_queue, display, controller)
 
+    pygame.font.init()
     game_loop = GameLoop(game_map,
                          clock,
                          renderer,
@@ -45,7 +49,8 @@ def main():
                          display,
                          main_menu,
                          pause_menu,
-                         controller)
+                         controller,
+                         player)
 
     # Start game.
     pygame.init()
