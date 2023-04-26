@@ -151,14 +151,16 @@ class Map:
         #self.selected_tower_active = True
     
     def set_selected_tower(self):
-        #self.selected_tower = tower
-        #self.selected_tower_active = True
         for tower in self.towers:
-            print("tower", tower.selected)
             if tower.selected == True:
                 self.selected_tower = tower
                 self.selected_tower_active = True
-
+    
+    def deselect_all_towers(self):
+        self.selected_tower_active = False
+        for tower in self.towers:
+            tower.selected = False
+        
     def hover_effect(self):
         # Notes: event loops cause mouse
         # clicks to not register.

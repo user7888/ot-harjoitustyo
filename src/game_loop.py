@@ -77,7 +77,7 @@ class GameLoop:
                 self.controller.set_state_terminated()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-
+                self._map.deselect_all_towers()
                 # Side menu inputs.
                 if self.build_menu.buy_button.checkForInput(self.mouse_position):
                     self.build_menu.handle_buy_button(self.player)
@@ -85,21 +85,9 @@ class GameLoop:
                     self.build_menu.handle_sell_button(self.player)
                 elif self.build_menu.build_button.checkForInput(self.mouse_position):
                     self.build_menu.handle_build_button(self.player)
+                # Check for tower inputs.
+                self.build_menu.handle_tower_click(self.player)
                 
-                # Game sprite inputs.
-                for tower in self._map.towers:
-                    # Problems: selected tower needs
-                    # two clicks to update.
-                    self._map.set_selected_tower()
-                    click = tower.tower_was_clicked(self.build_menu.get_current_state())
-                    if click:
-                        self.build_menu.handle_tower_click(self.player, tower)
-
-                # Building.
-                if self.build_menu.get_current_state() == "building":
-                    self._map.place_tower()
-
-
     def _render(self):
         self._renderer.render()
 

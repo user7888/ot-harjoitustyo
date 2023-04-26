@@ -13,10 +13,10 @@ class Tower(pygame.sprite.Sprite):
         # Tower types. Type is given in class constructor
         # and defines the attributes and image file of 
         # the tower.
-        self.tower_types = {"green": {"damage": 20, "range": 90, "attack_speed": 20 },
+        self.tower_types = {"green": {"damage": 20, "range": 130, "attack_speed": 20 },
                              "blue": {"damage": 20, "range": 90, "attack_speed": 20 },
                              "red": {"damage": 20, "range": 90, "attack_speed": 20 }}
-        self.type = self.tower_types[type]
+        self.type = type
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", f'{type}_tower.png')
         )
@@ -32,23 +32,23 @@ class Tower(pygame.sprite.Sprite):
         self.rect.y = y
         self.center = ((self.rect.left+self.rect.right)/2, 
                        (self.rect.top+self.rect.bottom)/2 )
-
         # Shooting related variables.
         self.range = 90
         self.time_of_previous_shooting = 0
         self.selected = False
 
-    def tower_was_clicked(self, menu_state):
+    def tower_was_clicked(self):
         mouse_position = pygame.mouse.get_pos()
 
         if mouse_position[0] in range(self.rect.left, self.rect.right) and mouse_position[1] in range(self.rect.top, self.rect.bottom):
             print("tower was clicked")
+            self.selected = True
             return True
     
     def calculate_distance_to_nearest_monster(self, monsters, sprite_group):
         for monster in monsters:
             distance = math.hypot(self.rect.x - monster.rect.x, self.rect.y - monster.rect.y)
-            if distance < self.range:
+            if distance < self.tower_types[self.type]["range"]:
                 print(distance)
                 self.shoot(monster, sprite_group)
                 return True
@@ -63,10 +63,7 @@ class Tower(pygame.sprite.Sprite):
         sprite_group.add(projectile)
     
     def draw_range_circle(self, display):
-        # Problem: display is needed for pygame
-        # draw.
-        pygame.draw.circle(display, (200, 200, 200), self.center, 100, width=3)
-        pass
+        pygame.draw.circle(display, (200, 200, 200), self.center, self.tower_types[self.type]["range"], width=3)
 
     def delete(self):
         self.kill()

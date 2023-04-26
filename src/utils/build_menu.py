@@ -47,8 +47,8 @@ class BuildMenu():
         self.states = {"building": "Side menu is in building state",
                        "selling": "Side menu is in selling state",
                        "default": "Side menu is in default state"}
-        self.current_state = None
-        self.text = ""
+        self.current_state = "default"
+        self.text = "In default mode"
     
     def get_current_state(self):
         return self.current_state
@@ -56,6 +56,7 @@ class BuildMenu():
     def handle_buy_button(self, player):
         print("buy button was pressed")
         self.current_state = "default"
+        self.text = "In default mode"
         print("menu state set to", self.current_state)
         player.use_gold(20)
     
@@ -69,14 +70,28 @@ class BuildMenu():
         self.text = "Click on a tile to build a tower"
         print("build button was pressed")
 
-    def handle_tower_click(self, player, tower):
-        if self.current_state == "selling":
-            player.gold += 10
-            print("player gold +10")
-            tower.delete()
-        elif self.current_state == "default":
-            tower.selected = True
-            self.game_map.set_selected_tower()
+    def handle_tower_click(self, player):
+        towers = self.game_map.towers
+        if self.current_state == "building":
+            self.game_map.place_tower()
+        else:
+            for tower in towers:
+                tower.tower_was_clicked()
+                if self.current_state == "selling" and tower.selected:
+                    player.gold += 10
+                    print("player gold +10")
+                    tower.delete()
+                elif self.current_state == "default":
+                    self.game_map.set_selected_tower()
+
+
+        #if self.current_state == "selling":
+        #    player.gold += 10
+        #    print("player gold +10")
+        #    tower.delete()
+        #elif self.current_state == "default":
+        #    tower.selected = True
+        #    self.game_map.set_selected_tower()
 
     # Render function
     def draw(self):
