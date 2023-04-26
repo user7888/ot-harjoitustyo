@@ -31,7 +31,7 @@ def main():
     pygame.display.set_caption("Tower Defense")
 
     # Form all objects.
-    game_map = Map(MAP, CELL_SIZE)
+    game_map = Map(MAP, CELL_SIZE, display)
     event_queue = EventQueue()
     renderer = Renderer(display, game_map)
     clock = Clock()

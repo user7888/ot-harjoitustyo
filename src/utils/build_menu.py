@@ -8,11 +8,12 @@ dirname = os.path.dirname(__file__)
 # Menu size 300x576
 # Game map end: 768
 class BuildMenu():
-    def __init__(self, clock, event_queue, display, controller):
+    def __init__(self, clock, event_queue, display, controller, game_map):
         self._clock = clock
         self._event_queue = event_queue
         self.display = display
         self.controller = controller
+        self.game_map = game_map
 
         # Text displayed in build menu.
         self.font = pygame.font.Font("freesansbold.ttf", 14)
@@ -44,7 +45,8 @@ class BuildMenu():
 
         # Menu states.
         self.states = {"building": "Side menu is in building state",
-                       "selling": "Side menu is in selling state"}
+                       "selling": "Side menu is in selling state",
+                       "default": "Side menu is in default state"}
         self.current_state = None
         self.text = ""
     
@@ -53,6 +55,8 @@ class BuildMenu():
     
     def handle_buy_button(self, player):
         print("buy button was pressed")
+        self.current_state = "default"
+        print("menu state set to", self.current_state)
         player.use_gold(20)
     
     def handle_sell_button(self, player):
@@ -70,6 +74,9 @@ class BuildMenu():
             player.gold += 10
             print("player gold +10")
             tower.delete()
+        elif self.current_state == "default":
+            tower.selected = True
+            self.game_map.set_selected_tower()
 
     # Render function
     def draw(self):

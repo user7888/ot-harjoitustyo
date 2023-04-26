@@ -24,7 +24,7 @@ class GameLoop:
 
         self.main_menu = main_menu
         self.pause_menu = pause_menu
-        self.build_menu = BuildMenu(clock, event_queue, display, controller)
+        self.build_menu = BuildMenu(clock, event_queue, display, controller, game_map)
         self.mouse_position = pygame.mouse.get_pos()
 
 
@@ -54,13 +54,17 @@ class GameLoop:
 
             # Update and render
             self._map.update(current_time)
-            self._render()
+            # _render() changed to _renderer.render(self.build_menu)
+            self._renderer.render(self.build_menu)
             self._clock.tick(FPS)
             self._map.hover_effect()
 
             # Side menu rendering
-            self.build_menu.draw()
-            pygame.display.update()
+
+            #self.build_menu.draw()
+            # Duplicate updates in game loop
+            # and renderer
+            #pygame.display.update()
 
     def _handle_events(self):
         for event in pygame.event.get():
@@ -73,7 +77,6 @@ class GameLoop:
                 self.controller.set_state_terminated()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                self._map.shoot()
 
                 # Side menu inputs.
                 if self.build_menu.buy_button.checkForInput(self.mouse_position):
@@ -82,16 +85,20 @@ class GameLoop:
                     self.build_menu.handle_sell_button(self.player)
                 elif self.build_menu.build_button.checkForInput(self.mouse_position):
                     self.build_menu.handle_build_button(self.player)
+                
+                # Game sprite inputs.
+                for tower in self._map.towers:
+                    # Problems: selected tower needs
+                    # two clicks to update.
+                    self._map.set_selected_tower()
+                    click = tower.tower_was_clicked(self.build_menu.get_current_state())
+                    if click:
+                        self.build_menu.handle_tower_click(self.player, tower)
 
                 # Building.
                 if self.build_menu.get_current_state() == "building":
                     self._map.place_tower()
 
-                # Game sprite inputs.
-                for tower in self._map.towers:
-                    click = tower.tower_was_clicked(self.build_menu.get_current_state())
-                    if click:
-                        self.build_menu.handle_tower_click(self.player, tower)
 
     def _render(self):
         self._renderer.render()

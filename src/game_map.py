@@ -8,9 +8,10 @@ from sprites.hover_outline import HoverOutline
 from objects.projectile import Projectile
 
 class Map:
-    def __init__(self, level_map, cell_size):
+    def __init__(self, level_map, cell_size, display):
         self.cell_size = cell_size
         self.level_map = level_map
+        self.display = display
 
         self.ground_tiles = pygame.sprite.Group()
         self.floors = pygame.sprite.Group()
@@ -23,6 +24,9 @@ class Map:
 
         self._initialize_sprites(level_map)
         self.clicked = False
+        # Selected tower rendering.
+        self.selected_tower_active = False
+        self.selected_tower = None
 
     # Initialize all sprites
     def _initialize_sprites(self, level_map):
@@ -66,8 +70,8 @@ class Map:
             #    monster.previous_move_time = current_time
             monster.set_destination()
             monster.move()
-            for tower in self.towers:
-                tower.check_if_monster_is_in_range(monster)
+            #for tower in self.towers:
+            #    tower.check_if_monster_is_in_range(monster)
 
         for projectile in self.projectiles:
             # update sets the new coordinates
@@ -79,6 +83,14 @@ class Map:
             # If projectile reached target
             if response is True:
                 projectile.delete()
+        
+        for tower in self.towers:
+            if tower.should_shoot(current_time):
+                in_range = tower.calculate_distance_to_nearest_monster(self.monsters, self.projectiles)
+                tower.time_of_previous_shooting = current_time
+            if tower.selected:
+                tower.draw_range_circle(self.display)
+
 
             #projectile.rect.move_ip(move_x, move_y)
             #projectile.rect.update()
@@ -127,9 +139,25 @@ class Map:
 
         self.level_map[cell_y][cell_x] = 3
 
-        new_tower = Tower(cell_x * self.cell_size, cell_y * self.cell_size)
+        new_tower = Tower("green", cell_x * self.cell_size, cell_y * self.cell_size)
         self.towers.add(new_tower)
         self.all_sprites.add(new_tower)
+        print("tower location:", new_tower.center)
+        print("amount of towers:", len(self.towers))
+
+        # Added to 'selected tower' so
+        # that range circle can be drawn in renderer.
+        #self.selected_tower = new_tower
+        #self.selected_tower_active = True
+    
+    def set_selected_tower(self):
+        #self.selected_tower = tower
+        #self.selected_tower_active = True
+        for tower in self.towers:
+            print("tower", tower.selected)
+            if tower.selected == True:
+                self.selected_tower = tower
+                self.selected_tower_active = True
 
     def hover_effect(self):
         # Notes: event loops cause mouse
