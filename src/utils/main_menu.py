@@ -73,7 +73,7 @@ class MainMenu:
         self.controller.set_state_terminated()
     
     def _handle_start_button(self):
-        self.controller.set_state_running()
+        self.controller.set_state_pre_wave()
     
     def _handle_quit_button(self):
         self.controller.set_state_terminated()

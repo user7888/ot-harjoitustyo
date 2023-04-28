@@ -30,6 +30,7 @@ class GameLoop:
 
     def start(self):
         while True:
+            self.controller.update_game_state(self._map.monsters)
             game_state = self.controller.get_game_state()
             self.mouse_position = pygame.mouse.get_pos()
             self._handle_events()
@@ -85,6 +86,8 @@ class GameLoop:
                     self.build_menu.handle_sell_button(self.player)
                 elif self.build_menu.build_button.checkForInput(self.mouse_position):
                     self.build_menu.handle_build_button(self.player)
+                elif self.build_menu.start_button.checkForInput(self.mouse_position):
+                    self.build_menu.handle_start_button(self.player)
                 # Check for tower inputs.
                 self.build_menu.handle_tower_click(self.player)
                 

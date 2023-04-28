@@ -37,6 +37,11 @@ class BuildMenu():
         self.build_button_image = pygame.transform.scale(self.build_button_image, (120, 85))
         self.build_button = Button(780, 300, self.build_button_image)
 
+        self.start_button_image = pygame.image.load(
+            os.path.join(dirname, "..", "assets", "side_menu_start.png"))
+        self.start_button_image = pygame.transform.scale(self.start_button_image, (120, 85))
+        self.start_button = Button(930, 300, self.start_button_image)
+
         # Build menu background image.
         self.background_image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "side_menu_background.png")
@@ -69,6 +74,11 @@ class BuildMenu():
         self.current_state = "building"
         self.text = "Click on a tile to build a tower"
         print("build button was pressed")
+    
+    def handle_start_button(self, player):
+        self.current_state = "default"
+        self.controller.set_state_running()
+        print("start button was pressed")
 
     def handle_tower_click(self, player):
         towers = self.game_map.towers
@@ -84,15 +94,6 @@ class BuildMenu():
                 elif self.current_state == "default":
                     self.game_map.set_selected_tower()
 
-
-        #if self.current_state == "selling":
-        #    player.gold += 10
-        #    print("player gold +10")
-        #    tower.delete()
-        #elif self.current_state == "default":
-        #    tower.selected = True
-        #    self.game_map.set_selected_tower()
-
     # Render function
     def draw(self):
         text = self.font.render(self.text, True, self.green, None)
@@ -101,3 +102,4 @@ class BuildMenu():
         self.buy_button.render(self.display)
         self.sell_button.render(self.display)
         self.build_button.render(self.display)
+        self.start_button.render(self.display)

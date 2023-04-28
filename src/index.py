@@ -9,7 +9,7 @@ from utils.pause_menu import PauseMenu
 from utils.controller import Controller
 from objects.player import Player
 
-MAP = [[2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
+MAP = [[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
        [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,],
        [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,],
@@ -17,7 +17,7 @@ MAP = [[2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
        [0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1,],
        [0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1,],
        [0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1,],
-       [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,]]
+       [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4,]]
 
 CELL_SIZE = 64
 
@@ -31,13 +31,13 @@ def main():
     pygame.display.set_caption("Tower Defense")
 
     # Form all objects.
-    game_map = Map(MAP, CELL_SIZE, display)
+    controller = Controller()
+    player = Player()
+    game_map = Map(MAP, CELL_SIZE, display, controller, player)
     event_queue = EventQueue()
     renderer = Renderer(display, game_map)
     clock = Clock()
-    player = Player()
 
-    controller = Controller()
     main_menu = MainMenu(clock, event_queue, display, controller)
     pause_menu = PauseMenu(clock, event_queue, display, controller)
 

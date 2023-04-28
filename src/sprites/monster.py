@@ -7,7 +7,7 @@ dirname = os.path.dirname(__file__)
 
 # Inherit the Sprite-class
 class Monster(pygame.sprite.Sprite):
-    def __init__(self, x=0, y=0):
+    def __init__(self, damage, x=0, y=0):
         super().__init__()
         # Set the image for sprite
         self.image = pygame.image.load(
@@ -19,10 +19,13 @@ class Monster(pygame.sprite.Sprite):
         # Coordinates for the object
         self.rect.x = x
         self.rect.y = y
+        self.center = ((self.rect.left+self.rect.right)/2, 
+                       (self.rect.top+self.rect.bottom)/2 )
 
         self.previous_move_time = 0
         self.hitpoints = 20
         self.movement_speed = 1
+        self.damage = damage
 
         self.set_destination_reached = False
         self.current_waypoint = 1
@@ -76,3 +79,6 @@ class Monster(pygame.sprite.Sprite):
     
     def current_location(self):
         return (self.rect.x, self.rect.y)
+
+    def delete(self):
+        self.kill()
