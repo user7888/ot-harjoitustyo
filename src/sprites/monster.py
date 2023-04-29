@@ -13,6 +13,8 @@ class Monster(pygame.sprite.Sprite):
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "monster.png")
         )
+        self.image = pygame.transform.scale(self.image, (64, 64))
+
         # Define the size for the object. Use
         # the dimensions of the monster image.
         self.rect = self.image.get_rect()

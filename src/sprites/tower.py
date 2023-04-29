@@ -59,7 +59,8 @@ class Tower(pygame.sprite.Sprite):
         return current_time - self.time_of_previous_shooting >= 1000
     
     def shoot(self, target, sprite_group):
-        projectile = Projectile(self.rect.x, self.rect.y, target.rect.x, target.rect.y, 3, 3)
+        print(target)
+        projectile = Projectile(self.rect.x, self.rect.y, target.rect.x, target.rect.y, 3, 3, target)
         sprite_group.add(projectile)
     
     def draw_range_circle(self, display):

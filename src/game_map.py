@@ -95,6 +95,8 @@ class Map:
 
             # If projectile reached target
             if response is True:
+                print("test", projectile.target)
+                projectile.damage_target()
                 projectile.delete()
         
         for tower in self.towers:

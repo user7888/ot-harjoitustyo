@@ -4,11 +4,14 @@ import os
 dirname = os.path.dirname(__file__)
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, x, y, target_x, target_y, speed, damage):
+    def __init__(self, x, y, target_x, target_y, speed, damage, target):
         super().__init__()
         self.target_x = target_x
         self.target_y = target_y
         self.speed = speed
+        # Target is a monster sprite
+        self.target = target
+        self.damage = 10
 
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "projectile.png")
@@ -45,6 +48,11 @@ class Projectile(pygame.sprite.Sprite):
             return True
         
         return False
+    
+    def damage_target(self):
+        self.target.hitpoints -= self.damage
+        if self.target.hitpoints <= 0:
+            self.target.delete()
         
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
