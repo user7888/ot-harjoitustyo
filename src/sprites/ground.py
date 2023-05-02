@@ -8,6 +8,14 @@ dirname = os.path.dirname(__file__)
 
 
 class Ground(pygame.sprite.Sprite):
+    """Class for the ground tile of the game.
+        Monster Sprites walk along the path
+        marked by ground tiles.
+
+    Args:
+        x: x coordinates for the rect of this sprite.
+        y: y coordinates for the rect of this sprite.
+    """
     def __init__(self, x=0, y=0):
         super().__init__()
 

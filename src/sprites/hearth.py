@@ -6,6 +6,13 @@ dirname = os.path.dirname(__file__)
 
 # Inherit the Sprite-class
 class Hearth(pygame.sprite.Sprite):
+    """Class for the Hearth Sprite.
+
+    Attributes:
+        x: x coordinates for the sprite.
+        y: y coordinates for the sprite.
+        player: Player object.
+    """
     def __init__(self, player, x=0, y=0):
         super().__init__()
         self.image = pygame.image.load(

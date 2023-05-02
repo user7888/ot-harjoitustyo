@@ -14,6 +14,11 @@ class Monster(pygame.sprite.Sprite):
             os.path.join(dirname, "..", "assets", "monster.png")
         )
         self.image = pygame.transform.scale(self.image, (64, 64))
+        # Monster damages and types should be set in 
+        # monster class.
+        self.monster_types = {"basic": {"damage": 2, "movement_speed": 130, "attack_speed": 20 },
+                             "fast": {"damage": 2, "movement_speed": 90, "attack_speed": 20 },
+                             "big": {"damage": 2, "movement_speed": 90, "attack_speed": 20 }}
 
         # Define the size for the object. Use
         # the dimensions of the monster image.

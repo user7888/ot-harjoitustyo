@@ -10,6 +10,10 @@ class Controller:
         
         # Amount of enemies, frequency of enemies in ms.
         # Give monster damage and types here.
+
+        # Types: amount of different monster types per wave. 
+        # Frequency: sets how frequenlty new monsters are spawned in that wave.
+        self.dict = {'wave1': {'types': (5, 0, 0), 'frequency': 1000}}
         self.waves = [
             [5, 1000, 2],
             [2, 1000, 2]
@@ -74,9 +78,6 @@ class Controller:
                 self._wave_progress = 0
                 print("set current wave to", self._current_wave)
             print('game state >', self._game_state)
-        
-        if self._current_wave+1 == len(self.waves):
-            print("all waves completed")
     
     def get_current_wave(self):
         return self.waves[self._current_wave]
