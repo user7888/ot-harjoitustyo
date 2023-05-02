@@ -29,3 +29,12 @@
   liittymä näytetään näytön vasemmassa reunassa pelikartan vierellä. Sen kautta
   pelaaja voi esimerkiksi rakentaa ja myydä torneja.
 - Testattu, että hirviöiden liikuttaminen pelikartalla toimii oikein.
+
+## Viikko 6
+- Lisätty Hearth-luokka. Pygamen Sprite-olio, jota pelaajan on tarkoitus
+  puolustaa pelissä.
+- Lisätty Player-luokka. Luokka vastaa pelaajaan liittyvistä toiminnoista.
+- Lisätty uusi ominaisuus, kierrokset. Hirviöt lisätään pelikartalla
+  aalloittain. Uusi kierros alkaa, kun pelaaja painaa Start-nappia.
+- Lisätty uusi ominaisuus, pelaajan rakentamat tornit ampuvat ja 
+  vahingoittavat hirviöitä.

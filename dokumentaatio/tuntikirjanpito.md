@@ -33,9 +33,14 @@
 | 24.4  | 1h   | Side menun grafiikka       |
 | 25.4  | 1h   | Side menu, lisää toimintoja|
 | 25.4  | 1h   | Tornien rakennus ja myynti |
+| 26.4  | 3h   | Tornien ampuminen          |
+| 26.4  | 1h   | Player- ja Hearth-luokat   |
+| 27.4  | 2h   | Wave system (hirviöille)   |
+| 28.4  | 2h   | Wave system (hirviöille)   |
+| 28.4  | 1h   | Hirviötyypit               |
 
 |       | Yht. |                            |
-|       | 34.5h|                            |
+|       | 43.5h|                            |
 
 
 

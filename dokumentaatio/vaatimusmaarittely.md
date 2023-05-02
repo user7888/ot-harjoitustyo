@@ -7,13 +7,21 @@ erilaisia torneja rakentamalla muodostaa puolustus hirviölaumoja vastaan!
 ## Perusversion ominaisuudet
 - Peli rakentuu kierroksista. Jokaisella kierroksella
   hirviölauman koko kasvaa ja peli muuttuu vaikeammaksi.
+
+      Tilanne: Kierroksiin liittyvä toiminnallisuus on 
+               toteutettu.
+
 - Pelaaja voi rakentaa torneja sijoittamalla niitä kartalle.
   Näin pelaaja muodostaa puolustuksen hirviöitä vastaan.
       
       Tilanne: Pelaaja voi rakentaa ja myydä torneja.
+               Tornit ampuvat ja vahingoittavat hirviöitä.
 
 - Torneja on useampaa eri tyyppiä (1-3 kpl). Jokaisella
   tornilla on omat ominaisuutensa.
+
+      Tilanne: Erilaisia torneja 1 kpl
+
 - Pelaaja voi ansaita rahaa. Pelaaja ansaitsee rahaa
   surmaamalla hirviötä.
 - Pelaaja voi päivittää torneja. Päivittäminen maksaa 
