@@ -13,15 +13,14 @@ class Controller:
 
         # Types: amount of different monster types per wave. 
         # Frequency: sets how frequenlty new monsters are spawned in that wave.
-        self.dict = {'wave1': {'types': (5, 0, 0), 'frequency': 1000}}
         self.waves = [
-            [5, 1000, 2],
-            [2, 1000, 2]
+            {'normal': 5, 'fast':2, 'big':0, 'frequency': 1000},
+            {'normal': 0, 'fast':2, 'big':0, 'frequency': 1000}
         ]
         self._current_wave = 0
         self._wave_progress = 0
         self.wave_completed = False
-        self.previous_spawn_time = self.waves[self._current_wave][1]
+        self.previous_spawn_time = self.waves[self._current_wave]['frequency']
 
     def get_game_state(self):
         return self._game_state
@@ -56,14 +55,35 @@ class Controller:
     def should_spawn_monster(self, current_time):
         # Time of previous spawn time is
         # updated in the game map module.
-        if self._game_state == 'running':
-            if current_time - self.previous_spawn_time >= self.waves[self._current_wave][1] and self._wave_progress < self.waves[self._current_wave][0]:
-                self._wave_progress += 1
+        self.wave_completed = True
+        if self.waves[self._current_wave]['normal'] > 0:
+            self.wave_completed = False
+        if self.waves[self._current_wave]['fast'] > 0:
+            self.wave_completed = False
+        if self.waves[self._current_wave]['big'] > 0:
+            self.wave_completed = False
+
+        if self._game_state == 'running' and not self.wave_completed:
+            if current_time - self.previous_spawn_time >= self.waves[self._current_wave]['frequency']:
                 return True
+    
+    def get_next_monster_type(self):
+        if self.waves[self._current_wave]['normal'] > 0:
+            self.waves[self._current_wave]['normal'] -= 1
+            return 'normal'
+        elif self.waves[self._current_wave]['fast'] > 0:
+            self.waves[self._current_wave]['fast'] -= 1
+            return 'fast'
+        elif self.waves[self._current_wave]['big'] > 0:
+            self.waves[self._current_wave]['big'] -= 1
+            return 'big'
+        else:
+            self.wave_completed = True
     
     def set_previous_spawn_time(self, current_time):
         self.previous_spawn_time = current_time
     
+    # Pitäisi olla turha
     def update_wave_state(self):
         if self._wave_progress >= self.waves[self._current_wave][0]:
             # wave_completed -> all monsters spawned

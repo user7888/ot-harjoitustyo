@@ -77,12 +77,8 @@ class Map:
             hearth.collision(self.monsters)
 
         for monster in self.monsters:
-            # Old movement
-            #if monster.should_move(current_time):
-            #    self.move_monster_pixel(monster)
-            #    monster.previous_move_time = current_time
-            monster.set_destination()
             monster.move()
+
             #for tower in self.towers:
             #    tower.check_if_monster_is_in_range(monster)
 
@@ -207,9 +203,9 @@ class Map:
         # Get wave info
         wave_info = self.controller.get_current_wave()
         if self.controller.should_spawn_monster(current_time):
-            new_monster = Monster(wave_info[2], -20, 0)
+            new_monster = Monster(self.controller.get_next_monster_type(), -20, 0)
             self.monsters.add(new_monster)
             self.all_sprites.add(self.monsters)
             print("monster spawned")
             self.controller.set_previous_spawn_time(current_time)
-            self.controller.update_wave_state()
+            #self.controller.update_wave_state()
