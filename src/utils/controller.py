@@ -14,8 +14,9 @@ class Controller:
         # Types: amount of different monster types per wave. 
         # Frequency: sets how frequenlty new monsters are spawned in that wave.
         self.waves = [
-            {'normal': 5, 'fast':2, 'big':0, 'frequency': 1000},
-            {'normal': 0, 'fast':2, 'big':0, 'frequency': 1000}
+            {'normal': 2, 'fast':0, 'big':0, 'frequency': 1000},
+            {'normal': 4, 'fast':0, 'big':0, 'frequency': 1000},
+            {'normal': 5, 'fast':2, 'big':0, 'frequency': 1000}
         ]
         self._current_wave = 0
         self._wave_progress = 0
@@ -82,12 +83,6 @@ class Controller:
     
     def set_previous_spawn_time(self, current_time):
         self.previous_spawn_time = current_time
-    
-    # Pitäisi olla turha
-    def update_wave_state(self):
-        if self._wave_progress >= self.waves[self._current_wave][0]:
-            # wave_completed -> all monsters spawned
-            self.wave_completed = True
     
     def update_game_state(self, monsters):
         if self._game_state == 'running' and self.wave_completed and len(monsters) == 0:

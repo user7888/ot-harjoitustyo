@@ -9,9 +9,9 @@ dirname = os.path.dirname(__file__)
 class Monster(pygame.sprite.Sprite):
     def __init__(self, type, x=0, y=0):
         super().__init__()
-        self.monster_types = {"normal": {"damage": 2, "movement_speed": 1.3, "attack_speed": 20 },
-                             "fast": {"damage": 2, "movement_speed": 2, "attack_speed": 20 },
-                             "big": {"damage": 2, "movement_speed": 1, "attack_speed": 20 }}
+        self.monster_types = {"normal": {"damage": 2, "movement_speed": 1.3, "hitpoints": 20 },
+                             "fast": {"damage": 2, "movement_speed": 2, "hitpoints": 20 },
+                             "big": {"damage": 2, "movement_speed": 1, "hitpoints": 20 }}
         self.type = self.monster_types[type]
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", f'monster_{type}.png')
@@ -86,6 +86,7 @@ class Monster(pygame.sprite.Sprite):
         if self.set_destination_reached_x == True and self.set_destination_reached_y == True:
             if self.current_waypoint <= 11:
                 self.current_waypoint += 1
+
             self.set_destination_reached_x = False
             self.set_destination_reached_y = False
             self.current_destination = waypoints[self.current_waypoint]

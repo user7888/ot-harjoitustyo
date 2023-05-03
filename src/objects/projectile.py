@@ -50,8 +50,8 @@ class Projectile(pygame.sprite.Sprite):
         return False
     
     def damage_target(self):
-        self.target.hitpoints -= self.damage
-        if self.target.hitpoints <= 0:
+        self.target.type['hitpoints'] -= self.damage
+        if self.target.type['hitpoints'] <= 0:
             self.target.delete()
         
     def draw(self, screen):
