@@ -79,17 +79,8 @@ class GameLoop:
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self._map.deselect_all_towers()
-                # Side menu inputs.
-                if self.build_menu.buy_button.checkForInput(self.mouse_position):
-                    self.build_menu.handle_buy_button(self.player)
-                elif self.build_menu.sell_button.checkForInput(self.mouse_position):
-                    self.build_menu.handle_sell_button(self.player)
-                elif self.build_menu.build_button.checkForInput(self.mouse_position):
-                    self.build_menu.handle_build_button(self.player)
-                elif self.build_menu.start_button.checkForInput(self.mouse_position):
-                    self.build_menu.handle_start_button(self.player)
-                # Check for tower inputs.
-                self.build_menu.handle_tower_click(self.player)
+                self.build_menu.check_for_inputs(self.mouse_position, self.player)
+                self.build_menu.handle_game_map_click(self.player)
                 
     def _render(self):
         self._renderer.render()

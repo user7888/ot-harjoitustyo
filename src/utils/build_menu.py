@@ -23,24 +23,39 @@ class BuildMenu():
 
         # Build menu buttons.
         self.buy_button_image = pygame.image.load(
-            os.path.join(dirname, "..", "assets", "buy_button.png"))
-        self.buy_button_image = pygame.transform.scale(self.buy_button_image, (120, 85))
-        self.buy_button = Button(780, 195, self.buy_button_image)
+            os.path.join(dirname, "..", "assets", "default_button2.png"))
+        self.buy_button_image = pygame.transform.scale(self.buy_button_image, (120, 120))
+        self.buy_button = Button(790, 230, self.buy_button_image)
 
         self.sell_button_image = pygame.image.load(
-            os.path.join(dirname, "..", "assets", "sell_button.png"))
-        self.sell_button_image = pygame.transform.scale(self.sell_button_image, (120, 85))
-        self.sell_button = Button(930, 195, self.sell_button_image)
+            os.path.join(dirname, "..", "assets", "sell_button2.png"))
+        self.sell_button_image = pygame.transform.scale(self.sell_button_image, (120, 120))
+        self.sell_button = Button(925, 230, self.sell_button_image)
 
         self.build_button_image = pygame.image.load(
-            os.path.join(dirname, "..", "assets", "build_button.png"))
-        self.build_button_image = pygame.transform.scale(self.build_button_image, (120, 85))
-        self.build_button = Button(780, 300, self.build_button_image)
+            os.path.join(dirname, "..", "assets", "build_button2.png"))
+        self.build_button_image = pygame.transform.scale(self.build_button_image, (120, 120))
+        self.build_button = Button(790, 320, self.build_button_image)
 
         self.start_button_image = pygame.image.load(
-            os.path.join(dirname, "..", "assets", "side_menu_start.png"))
-        self.start_button_image = pygame.transform.scale(self.start_button_image, (120, 85))
-        self.start_button = Button(930, 300, self.start_button_image)
+            os.path.join(dirname, "..", "assets", "start_button2.png"))
+        self.start_button_image = pygame.transform.scale(self.start_button_image, (120, 120))
+        self.start_button = Button(925, 320, self.start_button_image)
+
+        self.arrow_button_image = pygame.image.load(
+            os.path.join(dirname, "..", "assets", "arrow_button2.png"))
+        self.arrow_button_image = pygame.transform.scale(self.arrow_button_image, (120, 120))
+        self.arrow_button = Button(850, 250, self.arrow_button_image)
+
+        self.wizard_button_image = pygame.image.load(
+            os.path.join(dirname, "..", "assets", "wizard_button2.png"))
+        self.wizard_button_image = pygame.transform.scale(self.wizard_button_image, (120, 120))
+        self.wizard_button = Button(850, 320, self.wizard_button_image)
+
+        self.poison_button_image = pygame.image.load(
+            os.path.join(dirname, "..", "assets", "poison_button2.png"))
+        self.poison_button_image = pygame.transform.scale(self.poison_button_image, (120, 120))
+        self.poison_button = Button(850, 390, self.poison_button_image)
 
         # Build menu background image.
         self.background_image = pygame.image.load(
@@ -49,57 +64,138 @@ class BuildMenu():
         self.background_image = pygame.transform.scale(self.background_image, (575, 576))
 
         # Menu states.
-        self.states = {"building": "Side menu is in building state",
-                       "selling": "Side menu is in selling state",
-                       "default": "Side menu is in default state"}
+        self.states = {"building": "Building a tower",
+                       "selling": "Selling a tower",
+                       "default": "In default mode",
+                       "select": "Selecting a tower"}
+
         self.current_state = "default"
-        self.text = "In default mode"
-    
+        self.chosen_tower = None
+        self.desc = "In default mode"
+        self.hint = None
+
     def get_current_state(self):
         return self.current_state
-    
+
     def handle_buy_button(self, player):
         print("buy button was pressed")
         self.current_state = "default"
-        self.text = "In default mode"
+        self.desc = "In default mode"
         print("menu state set to", self.current_state)
         player.use_gold(20)
-    
-    def handle_sell_button(self, player):
+
+    def handle_sell_button(self):
         print("sell button was pressed")
-        self.text = "Click on a tower to sell it"
+        self.desc = "Click on a tower to sell it"
         self.current_state = "selling"
-    
-    def handle_build_button(self, player):
-        self.current_state = "building"
-        self.text = "Click on a tile to build a tower"
+
+    def handle_build_button(self):
+        self.current_state = "select"
+        self.desc = "Select a tower to build"
         print("build button was pressed")
-    
-    def handle_start_button(self, player):
+
+    def handle_start_button(self):
         self.current_state = "default"
         self.controller.set_state_running()
         print("start button was pressed")
 
-    def handle_tower_click(self, player):
+    def handle_arrow_button(self):
+        print('arrow button was pressed')
+        self.current_state = "building"
+        self.chosen_tower = "arrow"
+        self.desc = "Arrow tower selected"
+        self.hint = "Click on a tile to build a tower"
+
+    def handle_wizard_button(self):
+        print('wizard button was pressed')
+        self.current_state = "building"
+        self.chosen_tower = "wizard"
+        self.desc = "Wizard tower selected"
+        self.hint = "Click on a tile to build a tower"
+
+    def handle_poison_button(self):
+        print('poison button was pressed')
+        self.current_state = "building"
+        self.chosen_tower = "arrow"
+        self.desc = "Poison tower selected"
+        self.hint = "Click on a tile to build a tower"
+    
+    def _back_to_default(self):
+        self.current_state = 'default'
+        self.desc = 'In default mode'
+    
+    def handle_game_map_click(self, player):
         towers = self.game_map.towers
-        if self.current_state == "building":
-            self.game_map.place_tower()
-        else:
+
+        if self.current_state == 'building':
+            success = self.game_map.place_tower(self.chosen_tower)
+            if success:
+                self._back_to_default()
+                return
+        
+        if self.current_state == 'default':
             for tower in towers:
-                tower.tower_was_clicked()
-                if self.current_state == "selling" and tower.selected:
-                    player.gold += 10
-                    print("player gold +10")
-                    tower.delete()
-                elif self.current_state == "default":
+                tower_click = tower.tower_was_clicked()
+                if tower_click:
                     self.game_map.set_selected_tower()
+        
+        if self.current_state == 'selling':
+            for tower in towers:
+                tower_click = tower.tower_was_clicked()
+                if tower_click:
+                    tower.delete()
+                    self._back_to_default()
 
     # Render function
     def draw(self):
-        text = self.font.render(self.text, True, self.green, None)
-        self.display.blit(self.background_image, (768, -1))
-        self.display.blit(text, (815, 80))
-        self.buy_button.render(self.display)
-        self.sell_button.render(self.display)
-        self.build_button.render(self.display)
-        self.start_button.render(self.display)
+        # rendering based on states causes bugs
+        if self.current_state == 'default' or self.current_state == 'selling':
+            text = self.font.render(self.desc, True, self.green, None)
+            self.display.blit(self.background_image, (768, -1))
+            self.display.blit(text, (815, 80))
+            self.buy_button.render(self.display)
+            self.sell_button.render(self.display)
+            self.build_button.render(self.display)
+            self.start_button.render(self.display)
+
+        elif self.current_state == 'select' or self.current_state == 'building':
+            text = self.font.render(self.desc, True, self.green, None)
+            self.display.blit(self.background_image, (768, -1))
+            self.display.blit(text, (815, 80))
+            self.arrow_button.render(self.display)
+            self.wizard_button.render(self.display)
+            self.poison_button.render(self.display)
+
+    def check_for_inputs(self, mouse_position, player):
+        # selling state and selling button can cause bugs
+        if self.current_state == 'default':
+            if self.buy_button.checkForInput(mouse_position):
+                self.handle_buy_button(player)
+            elif self.sell_button.checkForInput(mouse_position):
+                self.handle_sell_button()
+            elif self.build_button.checkForInput(mouse_position):
+                self.handle_build_button()
+            elif self.start_button.checkForInput(mouse_position):
+                self.handle_start_button()
+            return
+        
+        if self.current_state == 'selling':
+            if self.buy_button.checkForInput(mouse_position):
+                self.handle_buy_button(player)
+            elif self.sell_button.checkForInput(mouse_position):
+                self.handle_sell_button()
+            elif self.build_button.checkForInput(mouse_position):
+                self.handle_build_button()
+            elif self.start_button.checkForInput(mouse_position):
+                self.handle_start_button()
+            return
+
+        if self.current_state == 'select':
+            if self.arrow_button.checkForInput(mouse_position):
+                self.handle_arrow_button()
+            elif self.wizard_button.checkForInput(mouse_position):
+                self.handle_wizard_button()
+            elif self.poison_button.checkForInput(mouse_position):
+                self.handle_poison_button()
+            return
+        

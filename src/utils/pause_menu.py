@@ -23,12 +23,12 @@ class PauseMenu:
         self.controller = controller
 
 
-        self.screen_title = Button(270, -50, pygame.image.load(
+        self.screen_title = Button(270, 0, pygame.image.load(
             os.path.join(dirname, "..", "assets", "pause_title.png")))
-        self.resume_button = Button(270, 100, pygame.image.load(
+        self.resume_button = Button(270, 150, pygame.image.load(
             os.path.join(dirname, "..", "assets", "resume_button.png")
         ))
-        self.exit_button = Button(270, 250, pygame.image.load(
+        self.exit_button = Button(270, 300, pygame.image.load(
             os.path.join(dirname, "..", "assets", "exit_button.png")
         ))
 

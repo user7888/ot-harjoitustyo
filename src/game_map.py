@@ -94,7 +94,7 @@ class Map:
                 print("test", projectile.target)
                 projectile.damage_target()
                 projectile.delete()
-        
+
         for tower in self.towers:
             if tower.should_shoot(current_time):
                 in_range = tower.calculate_distance_to_nearest_monster(self.monsters, self.projectiles)
@@ -135,23 +135,27 @@ class Map:
 
     # Causes a crash when clicking outside
     # game map
-    def place_tower(self):
+    def place_tower(self, tower_type):
+        # 1. checks with original grid map, if placement is allower?
+        # 2. update original grid map with newly placed tower
+        #    so that map state can be saved easily?
         mouse_position = pygame.mouse.get_pos()
         if mouse_position[0] > 768:
-            return
+            return False
 
+        # Select correct cell
         cell_x = mouse_position[0] // 64
         cell_y = mouse_position[1] // 64
         print("mouse click pixel", mouse_position)
         print("mouse click cell", cell_x, cell_y)
-
         self.level_map[cell_y][cell_x] = 3
 
-        new_tower = Tower("green", cell_x * self.cell_size, cell_y * self.cell_size)
+        new_tower = Tower(tower_type, cell_x * self.cell_size, cell_y * self.cell_size)
         self.towers.add(new_tower)
         self.all_sprites.add(new_tower)
         print("tower location:", new_tower.center)
         print("amount of towers:", len(self.towers))
+        return True
 
         # Added to 'selected tower' so
         # that range circle can be drawn in renderer.
@@ -159,10 +163,13 @@ class Map:
         #self.selected_tower_active = True
     
     def set_selected_tower(self):
+        # gets here but doesnt select towers..
+        print("amont of twrs", len(self.towers))
         for tower in self.towers:
-            if tower.selected == True:
+            if tower.selected is True:
                 self.selected_tower = tower
                 self.selected_tower_active = True
+                print("tower was selected")
     
     def deselect_all_towers(self):
         self.selected_tower_active = False
@@ -188,16 +195,17 @@ class Map:
 
         self.outlines.add(hover)
 
-    def shoot(self):
-        mouse_position = pygame.mouse.get_pos()
-        if mouse_position[0] > 768:
-            return
-
-        mouse_position = pygame.mouse.get_pos()
-
-        new_projectile = Projectile(100, 100, mouse_position[0], mouse_position[1], 3, 3)
-
-        self.projectiles.add(new_projectile)
+    # Old tests
+    #def shoot(self):
+    #    mouse_position = pygame.mouse.get_pos()
+    #    if mouse_position[0] > 768:
+    #        return
+    #
+    #   mouse_position = pygame.mouse.get_pos()
+    #
+    #    new_projectile = Projectile(100, 100, mouse_position[0], mouse_position[1], 3, 3)
+    #
+    #    self.projectiles.add(new_projectile)
     
     def spawn_monsters(self, current_time):
         # Get wave info
