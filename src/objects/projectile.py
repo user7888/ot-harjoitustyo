@@ -4,17 +4,19 @@ import os
 dirname = os.path.dirname(__file__)
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, x, y, target_x, target_y, speed, damage, target):
+    def __init__(self, type, x, y, target_x, target_y, speed, damage, target, monsters):
         super().__init__()
         self.target_x = target_x
         self.target_y = target_y
         self.speed = speed
+        self.types = {"arrow": {"damage": 15, "effect": {"area": 0, "slow": 0, "dot": 0, "duration": 0}},
+                      "wizard": {"damage": 10, "effect": {"area": 50, "slow": 0, "dot": 0, "duration": 0}},
+                      "poison": {"damage": 5, "effect": {"area": 0, "slow": 50, "dot": 0, "duration": 600}}}
+        self.type = type
         # Target is a monster sprite
         self.target = target
-        self.damage = 10
-
         self.image = pygame.image.load(
-            os.path.join(dirname, "..", "assets", "projectile.png")
+            os.path.join(dirname, "..", "assets", f'{type}_projectile.png')
         )
         self.image_scaled = pygame.transform.scale(self.image, (64, 64))
         self.image = self.image_scaled
@@ -22,6 +24,11 @@ class Projectile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+        # AoE tests:
+        self.aoe_area = 50
+        self.all_monsters = monsters
+
     
     #           DISCLAIMER:
     #
@@ -45,14 +52,47 @@ class Projectile(pygame.sprite.Sprite):
         
         # Check if the projectile has reached the target
         if abs(self.rect.x - self.target_x) < self.speed and abs(self.rect.y - self.target_y) < self.speed:
+            if self.types[self.type]['effect']['area'] > 0:
+                #self.area_of_effect()
+                #self.delete()
+                pass
+            else:
+                #self.target.damage(self.types[self.type]['damage'], self.types[self.type]['effect'])
+                #self.delete()
+                pass
             return True
         
         return False
     
-    def damage_target(self):
-        self.target.type['hitpoints'] -= self.damage
-        if self.target.type['hitpoints'] <= 0:
-            self.target.delete()
+    # Damage target function for monster class
+    # and checks for dying?
+
+    # Damge target can cause bugs
+    #def damage_target(self):
+    #    self.target.damage() -= self.types[self.type]['damage']
+    #    if self.target.stats['hitpoints'] <= 0:
+    #        self.target.delete()
+    
+    # 'damage service' for monster
+
+    def resolve_hit(self, current_time):
+        # Check for area of effect
+        if self.types[self.type]['effect']['area'] > 0:
+            for monster in self.all_monsters:
+                distance = math.hypot(self.rect.x - monster.rect.x, self.rect.y - monster.rect.y)
+                if distance < self.types[self.type]['effect']['area']:
+                    print("hit monster with aoe")
+                    monster.damage(self.types[self.type]['damage'])
+        else:
+            self.target.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time)
+        self.delete()
+
+    def area_of_effect(self):
+        for monster in self.all_monsters:
+            distance = math.hypot(self.rect.x - monster.rect.x, self.rect.y - monster.rect.y)
+            if distance < self.types[self.type]['effect']['area']:
+                print("hit monster with aoe")
+                monster.damage(self.types[self.type]['damage'])
         
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))

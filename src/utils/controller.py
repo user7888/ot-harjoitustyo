@@ -14,7 +14,7 @@ class Controller:
         # Types: amount of different monster types per wave. 
         # Frequency: sets how frequenlty new monsters are spawned in that wave.
         self.waves = [
-            {'normal': 2, 'fast':0, 'big':0, 'frequency': 1000},
+            {'normal': 5, 'fast':2, 'big':0, 'frequency': 500},
             {'normal': 4, 'fast':0, 'big':0, 'frequency': 1000},
             {'normal': 5, 'fast':2, 'big':0, 'frequency': 1000}
         ]

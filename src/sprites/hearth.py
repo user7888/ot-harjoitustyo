@@ -33,5 +33,5 @@ class Hearth(pygame.sprite.Sprite):
         for monster in monsters:
             if monster.rect.right in range(self.rect.left, self.rect.right) and monster.rect.bottom in range(self.rect.top, self.rect.bottom):
                 # damage player(monster.damage)
-                self.player.damage_player(monster.type['damage'])
+                self.player.damage_player(monster.stats['damage'])
                 monster.delete()

@@ -9,10 +9,27 @@ dirname = os.path.dirname(__file__)
 class Monster(pygame.sprite.Sprite):
     def __init__(self, type, x=0, y=0):
         super().__init__()
-        self.monster_types = {"normal": {"damage": 2, "movement_speed": 1.3, "hitpoints": 20 },
-                             "fast": {"damage": 2, "movement_speed": 2, "hitpoints": 20 },
-                             "big": {"damage": 2, "movement_speed": 1, "hitpoints": 20 }}
-        self.type = self.monster_types[type]
+        self.monster_types = {"normal": {"damage": 2,
+                                         "movement_speed": 1, 
+                                         "movement_interval": 10, 
+                                         "hitpoints": 20 },
+                             "fast": {"damage": 2, 
+                                      "movement_speed": 1,
+                                      "movement_interval": 10, 
+                                      "hitpoints": 20 },
+                             "big": {"damage": 2, 
+                                     "movement_speed": 1,
+                                     "movement_interval": 30, 
+                                     "hitpoints": 20 }}
+
+        self.stats = {"damage": self.monster_types[type]["damage"],
+                      "movement_speed": self.monster_types[type]["movement_speed"], 
+                      "movement_interval": self.monster_types[type]["movement_interval"], 
+                      "hitpoints": self.monster_types[type]["hitpoints"]}
+
+        self.type = type
+        self.status_effect_time = (0, 0)
+
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", f'monster_{type}.png')
         )
@@ -21,7 +38,7 @@ class Monster(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.center = ((self.rect.left+self.rect.right)/2, 
+        self.center = ((self.rect.left+self.rect.right)/2,
                        (self.rect.top+self.rect.bottom)/2 )
         # Movement
         self.set_destination_reached_x = False
@@ -30,9 +47,12 @@ class Monster(pygame.sprite.Sprite):
         self.current_destination = (0, 0)
         self.neg_y = False
         self.neg_x = False
+
+        self.time_of_previous_move = 0
     
-    def move(self):
+    def move(self, current_time):
         self._check_destination_reached()
+        self.time_of_previous_move = current_time
         negative_x = False
         negative_y = False
 
@@ -43,15 +63,17 @@ class Monster(pygame.sprite.Sprite):
 
         if abs(self.rect.x - self.current_destination[0]) > 0:
             if not negative_x:
-                self.rect.x += self.type['movement_speed']
+                self.rect.x += self.stats['movement_speed']
             else:
-                self.rect.x -= self.type['movement_speed']
+                self.rect.x -= self.stats['movement_speed']
 
         if abs(self.rect.y - self.current_destination[1]) > 0:
             if not negative_y:
-                self.rect.y += self.type['movement_speed']
+                self.rect.y += self.stats['movement_speed']
             else:
-                self.rect.y -= self.type['movement_speed']
+                self.rect.y -= self.stats['movement_speed']
+        
+        print("monster moved with speed", self.stats['movement_interval'])
     
     def _check_destination_reached(self):
         waypoints = {1: (6, 510),
@@ -101,8 +123,35 @@ class Monster(pygame.sprite.Sprite):
             else:
                 self.neg_y = False
     
+    def damage(self, damage, effect, current_time):
+        self.stats["hitpoints"] -= damage
+        if effect["duration"] > 0:
+            self.stats['movement_interval'] = effect['slow']
+            self.status_effect_time = (current_time, effect["duration"])
+
+        if self.stats["hitpoints"] <= 0:
+            self.delete()
+        
+        print("monster speed", self.stats['movement_interval'])
+        print("monster health", self.stats['hitpoints'])
+
+    
+    def update_status(self, current_time):
+        # Time of previous shooting is
+        # updated in the game map module.
+        if current_time - self.status_effect_time[0] >= self.status_effect_time[1]:
+            self.stats['movement_interval'] = self.monster_types[self.type]['movement_interval']
+    
     def current_location(self):
         return (self.rect.x, self.rect.y)
 
     def delete(self):
         self.kill()
+    
+    # New movement tests
+
+    # movement_speed = 1..2
+    # movement_interval = 0..40
+    def should_move(self, current_time):
+        return current_time - self.time_of_previous_move >= self.stats["movement_interval"]
+

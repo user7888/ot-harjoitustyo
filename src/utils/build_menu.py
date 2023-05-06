@@ -116,7 +116,7 @@ class BuildMenu():
     def handle_poison_button(self):
         print('poison button was pressed')
         self.current_state = "building"
-        self.chosen_tower = "arrow"
+        self.chosen_tower = "poison"
         self.desc = "Poison tower selected"
         self.hint = "Click on a tile to build a tower"
     

@@ -77,7 +77,9 @@ class Map:
             hearth.collision(self.monsters)
 
         for monster in self.monsters:
-            monster.move()
+            if monster.should_move(current_time):
+                monster.move(current_time)
+            monster.update_status(current_time)
 
             #for tower in self.towers:
             #    tower.check_if_monster_is_in_range(monster)
@@ -87,18 +89,20 @@ class Map:
             # for projectile sprite. Projectile
             # is drawn in renderer with sprite
             # group draw
-            response = projectile.update()
+            projectile_hit = projectile.update()
 
             # If projectile reached target
-            if response is True:
-                print("test", projectile.target)
-                projectile.damage_target()
-                projectile.delete()
+
+            # AoE toteutettu fiksusti, normaali damage
+            # ei
+            # resolve hit with current time?
+            if projectile_hit is True:
+                projectile.resolve_hit(current_time)
 
         for tower in self.towers:
             if tower.should_shoot(current_time):
-                in_range = tower.calculate_distance_to_nearest_monster(self.monsters, self.projectiles)
-                tower.time_of_previous_shooting = current_time
+                tower.shoot_nearest_monster(self.monsters, self.projectiles, current_time)
+
             if tower.selected:
                 tower.draw_range_circle(self.display)
 
