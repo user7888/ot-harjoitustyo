@@ -5,6 +5,7 @@ from renderer import Renderer
 from clock import Clock
 from event_queue import EventQueue
 from utils.main_menu import MainMenu
+from utils.build_menu import BuildMenu
 from utils.pause_menu import PauseMenu
 from utils.controller import Controller
 from objects.player import Player
@@ -29,6 +30,8 @@ def main():
 
     display = pygame.display.set_mode((width * CELL_SIZE + side_menu_width, height * CELL_SIZE))
     pygame.display.set_caption("Tower Defense")
+    pygame.font.init()
+
 
     # Form all objects.
     controller = Controller()
@@ -40,8 +43,8 @@ def main():
 
     main_menu = MainMenu(clock, event_queue, display, controller)
     pause_menu = PauseMenu(clock, event_queue, display, controller)
+    main_ui = BuildMenu(clock, event_queue, display, controller, game_map, player)
 
-    pygame.font.init()
     game_loop = GameLoop(game_map,
                          clock,
                          renderer,
@@ -50,7 +53,8 @@ def main():
                          main_menu,
                          pause_menu,
                          controller,
-                         player)
+                         player,
+                         main_ui)
 
     # Start game.
     pygame.init()

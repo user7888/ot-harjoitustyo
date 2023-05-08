@@ -7,6 +7,7 @@ from sprites.tower import Tower
 from sprites.hearth import Hearth
 from sprites.hover_outline import HoverOutline
 from objects.projectile import Projectile
+import utils.stats as stats
 
 class Map:
     def __init__(self, level_map, cell_size, display, controller, player):
@@ -90,12 +91,6 @@ class Map:
             # is drawn in renderer with sprite
             # group draw
             projectile_hit = projectile.update()
-
-            # If projectile reached target
-
-            # AoE toteutettu fiksusti, normaali damage
-            # ei
-            # resolve hit with current time?
             if projectile_hit is True:
                 projectile.resolve_hit(current_time)
 
@@ -122,30 +117,17 @@ class Map:
         direction = random.choice(list(directions.keys()))
         monster.rect.move_ip(directions[direction])
 
-    # def move_monster_pixel_new(self, monster, destination):
-    #     # if monster reaches destination, only then update
-    #     # new destination for monster.
-
-    #     current_location = monster.currrent_location()
-    #     new_location = (current_location[0]+2, current_location[1]+2)
-    #     final_location = current_location
-
-    #     if new_location[0] <= monster.current_destination[0]:
-    #         final_location[0] = new_location[0]
-    #     if new_location[1] >= monster.current_destination[1]:
-    #         final_location[1] = new_location[1]
-
-    #     monster.rect.move_ip(final_location)
-
     # Causes a crash when clicking outside
     # game map
-    def place_tower(self, tower_type):
-        # 1. checks with original grid map, if placement is allower?
-        # 2. update original grid map with newly placed tower
-        #    so that map state can be saved easily?
-        mouse_position = pygame.mouse.get_pos()
+    def place_tower(self, mouse_position, tower_type):
+        # new mouse position tests.
         if mouse_position[0] > 768:
             return False
+
+        if not self.player.buy(stats.tower_types[tower_type]['cost']):
+            return 'Not enough gold'
+
+
 
         # Select correct cell
         cell_x = mouse_position[0] // 64
@@ -159,7 +141,7 @@ class Map:
         self.all_sprites.add(new_tower)
         print("tower location:", new_tower.center)
         print("amount of towers:", len(self.towers))
-        return True
+        return 'Tower built successfully'
 
         # Added to 'selected tower' so
         # that range circle can be drawn in renderer.

@@ -1,6 +1,7 @@
 import os
 import math
 import pygame
+from utils.stats import monster_types
 
 # Location of this file
 dirname = os.path.dirname(__file__)
@@ -9,18 +10,7 @@ dirname = os.path.dirname(__file__)
 class Monster(pygame.sprite.Sprite):
     def __init__(self, type, x=0, y=0):
         super().__init__()
-        self.monster_types = {"normal": {"damage": 2,
-                                         "movement_speed": 1, 
-                                         "movement_interval": 10, 
-                                         "hitpoints": 20 },
-                             "fast": {"damage": 2, 
-                                      "movement_speed": 1,
-                                      "movement_interval": 10, 
-                                      "hitpoints": 20 },
-                             "big": {"damage": 2, 
-                                     "movement_speed": 1,
-                                     "movement_interval": 30, 
-                                     "hitpoints": 20 }}
+        self.monster_types = monster_types
 
         self.stats = {"damage": self.monster_types[type]["damage"],
                       "movement_speed": self.monster_types[type]["movement_speed"], 

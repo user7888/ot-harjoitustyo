@@ -12,7 +12,7 @@ dirname = os.path.dirname(__file__)
 
 class GameLoop:
     def __init__(self, game_map, clock, renderer, event_queue,
-                 display, main_menu, pause_menu, controller, player):
+                 display, main_menu, pause_menu, controller, player, main_ui):
 
         self._map = game_map
         self._clock = clock
@@ -24,7 +24,7 @@ class GameLoop:
 
         self.main_menu = main_menu
         self.pause_menu = pause_menu
-        self.build_menu = BuildMenu(clock, event_queue, display, controller, game_map)
+        self.build_menu = main_ui
         self.mouse_position = pygame.mouse.get_pos()
 
 
@@ -80,7 +80,7 @@ class GameLoop:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self._map.deselect_all_towers()
                 self.build_menu.check_for_inputs(self.mouse_position, self.player)
-                self.build_menu.handle_game_map_click(self.player)
+                self.build_menu.handle_game_map_click(self.mouse_position, self.player)
                 
     def _render(self):
         self._renderer.render()

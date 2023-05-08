@@ -13,7 +13,7 @@ def foo(ctx):
 # Runs the program.
 @task
 def start(ctx):
-    ctx.run("python3 src/index.py", pty=True)
+    ctx.run("python3 src/main.py", pty=True)
 
 # Run tests in src folder.
 @task
@@ -42,3 +42,4 @@ def format(ctx):
 @task
 def lint(ctx):
     ctx.run("pylint src", pty=True)
+    

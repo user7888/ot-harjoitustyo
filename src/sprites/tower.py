@@ -2,6 +2,7 @@ import os
 import math
 import pygame
 from objects.projectile import Projectile
+from utils.stats import tower_types
 
 # Location of this file
 dirname = os.path.dirname(__file__)
@@ -13,9 +14,7 @@ class Tower(pygame.sprite.Sprite):
         # Tower types. Type is given in class constructor
         # and defines the attributes and image file of
         # the tower.
-        self.tower_types = {"arrow": {"damage": 20, "range": 130, "attack_speed": 800, "size": (75, 75)},
-                             "wizard": {"damage": 20, "range": 90, "attack_speed": 1200, "size": (70, 70)},
-                             "poison": {"damage": 20, "range": 130, "attack_speed": 1000, "size": (70, 70)}}
+        self.tower_types = tower_types
         self.type = tower_type
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", f'{tower_type}_tower.png')
@@ -30,7 +29,7 @@ class Tower(pygame.sprite.Sprite):
         # Coordinates for the object
         self.rect.x = x
         self.rect.y = y -20
-        self.center = ((self.rect.left+self.rect.right)/2, 
+        self.center = ((self.rect.left+self.rect.right)/2,
                        (self.rect.top+self.rect.bottom)/2 )
         # Shooting related variables.
         self.range = 90

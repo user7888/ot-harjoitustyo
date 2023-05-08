@@ -1,6 +1,7 @@
 import pygame
 import math
 import os
+from utils.stats import projectile_types
 dirname = os.path.dirname(__file__)
 
 class Projectile(pygame.sprite.Sprite):
@@ -9,9 +10,7 @@ class Projectile(pygame.sprite.Sprite):
         self.target_x = target_x
         self.target_y = target_y
         self.speed = speed
-        self.types = {"arrow": {"damage": 15, "effect": {"area": 0, "slow": 0, "dot": 0, "duration": 0}},
-                      "wizard": {"damage": 10, "effect": {"area": 50, "slow": 0, "dot": 0, "duration": 0}},
-                      "poison": {"damage": 5, "effect": {"area": 0, "slow": 50, "dot": 0, "duration": 600}}}
+        self.types = projectile_types
         self.type = type
         # Target is a monster sprite
         self.target = target
@@ -82,7 +81,7 @@ class Projectile(pygame.sprite.Sprite):
                 distance = math.hypot(self.rect.x - monster.rect.x, self.rect.y - monster.rect.y)
                 if distance < self.types[self.type]['effect']['area']:
                     print("hit monster with aoe")
-                    monster.damage(self.types[self.type]['damage'])
+                    monster.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time)
         else:
             self.target.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time)
         self.delete()
