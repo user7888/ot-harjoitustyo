@@ -7,6 +7,7 @@ from event_queue import EventQueue
 from utils.main_menu import MainMenu
 from utils.build_menu import BuildMenu
 from utils.pause_menu import PauseMenu
+from utils.end_menu import EndMenu
 from utils.controller import Controller
 from objects.player import Player
 
@@ -43,6 +44,7 @@ def main():
 
     main_menu = MainMenu(clock, event_queue, display, controller)
     pause_menu = PauseMenu(clock, event_queue, display, controller)
+    end_menu = EndMenu(clock, event_queue, display, controller)
     main_ui = BuildMenu(clock, event_queue, display, controller, game_map, player)
 
     game_loop = GameLoop(game_map,

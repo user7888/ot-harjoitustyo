@@ -23,3 +23,9 @@ class Player():
     def current_gold(self):
         return self.gold
     
+    def is_alive(self):
+        if self.life_total > 0:
+            return  True
+        else:
+            return False
+    

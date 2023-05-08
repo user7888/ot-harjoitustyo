@@ -5,6 +5,7 @@ from pygame.locals import (
 )
 import pygame
 from utils.build_menu import BuildMenu
+from utils.end_menu import EndMenu
 
 FPS = 60
 dirname = os.path.dirname(__file__)
@@ -26,6 +27,7 @@ class GameLoop:
         self.pause_menu = pause_menu
         self.build_menu = main_ui
         self.mouse_position = pygame.mouse.get_pos()
+        self.end_menu = EndMenu(clock, event_queue, display, controller)
 
 
     def start(self):
@@ -48,6 +50,10 @@ class GameLoop:
             if game_state == 'paused':
                 self.controller.set_state_paused()
                 self.pause_menu.start()
+                continue
+            if not self.player.is_alive():
+                self.controller.set_state_game_over()
+                self.end_menu.start()
                 continue
 
             # Time/ticks elapsed since game start.

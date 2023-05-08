@@ -32,7 +32,7 @@ projectile_types = {"arrow": {"damage": 15,
                                      "slow": 50, 
                                      "dot": 0, 
                                      "duration": 600}}}
-
+# movement was int 10 soeed 1
 monster_types = {"normal": {"damage": 2,
                             "movement_speed": 1, 
                             "movement_interval": 10, 

@@ -5,7 +5,8 @@ class Controller:
                        'running': 'Game is running',
                        'pre wave': 'Game is in pre wave state',
                        'paused': 'Game is in pause menu',
-                       'terminated': 'Game is exiting'}
+                       'terminated': 'Game is exiting',
+                       'game over': 'Game over'}
         self._game_state = 'initialized'
         
         # Amount of enemies, frequency of enemies in ms.
@@ -29,6 +30,8 @@ class Controller:
     def get_game_states(self):
         return self.states
 
+    # Single set state function with
+    # state given in parameter
     def set_state_initialized(self):
         self._game_state = 'initialized'
         print("game state set >", self._game_state)
@@ -51,6 +54,10 @@ class Controller:
 
     def set_state_terminated(self):
         self._game_state = 'terminated'
+        print("game state set >", self._game_state)
+    
+    def set_state_game_over(self):
+        self._game_state = 'game over'
         print("game state set >", self._game_state)
     
     def should_spawn_monster(self, current_time):
