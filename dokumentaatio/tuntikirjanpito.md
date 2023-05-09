@@ -38,9 +38,19 @@
 | 27.4  | 2h   | Wave system (hirviöille)   |
 | 28.4  | 2h   | Wave system (hirviöille)   |
 | 28.4  | 1h   | Hirviötyypit               |
+| 2.5   | 2h   | Hirviötyypit               |
+| 3.5   | 1h   | Hirviötyypit               |
+| 4.5   | 2h   | Side menun muutokset       |
+| 4.5   | 2h   | Uusien tornien teko        |
+| 5.5   | 2h   | Uudet tornit/AoE-efekti    |
+| 5.5   | 2h   | Poison-torni               |
+| 5.5   | 1h   | Hirviöiden movement        |
+| 6.5   | 1h   | Poison-torni ja Hirv. mov. |
+| 8.5   | 3h   | Side menu päivitykset      |
+| 8.5   | 1h   | Game end screen            |
 
 |       | Yht. |                            |
-|       | 43.5h|                            |
+|       | 58.5h|                            |
 
 
 
