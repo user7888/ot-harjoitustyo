@@ -73,6 +73,9 @@ class Tower(pygame.sprite.Sprite):
     
     def draw_range_circle(self, display):
         pygame.draw.circle(display, (200, 200, 200), self.center, self.tower_types[self.type]["range"], width=3)
+    
+    def deselect_tower(self):
+        self.selected = False
 
     def delete(self):
         self.kill()

@@ -19,3 +19,18 @@ class HoverOutline(pygame.sprite.Sprite):
         # Coordinates for the object
         self.rect.x = x
         self.rect.y = y
+    
+    def update_position(self, sprite_group, cell_size):
+        mouse_position = pygame.mouse.get_pos()
+        cell_x = mouse_position[0] // 64
+        cell_y = mouse_position[1] // 64
+
+        if mouse_position[0] > 768:
+            for item in sprite_group:
+                item.kill()
+            return
+        for item in sprite_group:
+            item.kill()
+
+        hover = HoverOutline(cell_x * cell_size, cell_y * cell_size)
+        sprite_group.add(hover)

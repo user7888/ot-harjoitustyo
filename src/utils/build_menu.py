@@ -230,35 +230,35 @@ class BuildMenu():
     def check_for_inputs(self, mouse_position, player):
         # selling state and selling button can cause bugs
         if self.current_state == 'default':
-            if self.default_button.checkForInput(mouse_position):
+            if self.default_button.check_for_input(mouse_position):
                 self.handle_default_button(player)
-            elif self.sell_button.checkForInput(mouse_position):
+            elif self.sell_button.check_for_input(mouse_position):
                 self.handle_sell_button()
-            elif self.build_button.checkForInput(mouse_position):
+            elif self.build_button.check_for_input(mouse_position):
                 self.handle_build_button()
-            elif self.start_button.checkForInput(mouse_position):
+            elif self.start_button.check_for_input(mouse_position):
                 self.handle_start_button()
             return
         
         if self.current_state == 'selling':
-            if self.default_button.checkForInput(mouse_position):
+            if self.default_button.check_for_input(mouse_position):
                 self.handle_default_button(player)
-            elif self.sell_button.checkForInput(mouse_position):
+            elif self.sell_button.check_for_input(mouse_position):
                 self.handle_sell_button()
-            elif self.build_button.checkForInput(mouse_position):
+            elif self.build_button.check_for_input(mouse_position):
                 self.handle_build_button()
-            elif self.start_button.checkForInput(mouse_position):
+            elif self.start_button.check_for_input(mouse_position):
                 self.handle_start_button()
             return
 
         if self.current_state == 'select' or self.current_state == 'building':
-            if self.arrow_button.checkForInput(mouse_position):
+            if self.arrow_button.check_for_input(mouse_position):
                 self.handle_arrow_button()
-            elif self.wizard_button.checkForInput(mouse_position):
+            elif self.wizard_button.check_for_input(mouse_position):
                 self.handle_wizard_button()
-            elif self.poison_button.checkForInput(mouse_position):
+            elif self.poison_button.check_for_input(mouse_position):
                 self.handle_poison_button()
-            elif self.back_button.checkForInput(mouse_position):
+            elif self.back_button.check_for_input(mouse_position):
                 self.handle_back_button()
             return
         

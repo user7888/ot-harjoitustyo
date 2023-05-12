@@ -30,12 +30,8 @@ class EndMenu:
             game_state = self.controller.get_game_state()
             if game_state != 'game over':
                 break
-            
-            self._handle_events()
 
-            # Old screen was left in the background
-            # and start button drawn over it. Now
-            # background is filled with black.
+            self._handle_events()
             self.display.fill((0, 0, 0))
 
             # Render buttons as a group?
@@ -57,7 +53,7 @@ class EndMenu:
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Handle exit button event.
-                if self.exit_button.checkForInput(self.mouse_position):
+                if self.exit_button.check_for_input(self.mouse_position):
                     self._handle_exit_button()
                     return False
     

@@ -67,11 +67,11 @@ class PauseMenu:
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Handle resume button event.
-                if self.resume_button.checkForInput(self.mouse_position):
+                if self.resume_button.check_for_input(self.mouse_position):
                     self._handle_resume_button()
                     return False
                 # Handle exit button event.
-                if self.exit_button.checkForInput(self.mouse_position):
+                if self.exit_button.check_for_input(self.mouse_position):
                     self._handle_exit_button()
                     return False
     

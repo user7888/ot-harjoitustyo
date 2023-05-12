@@ -1,5 +1,5 @@
 class Controller:
-    def __init__(self):
+    def __init__(self, starting_wave):
         self.states = {'initialized': 'Game is initialized',
                        'main menu': 'Game is in main menu',
                        'running': 'Game is running',
@@ -12,14 +12,14 @@ class Controller:
         # Amount of enemies, frequency of enemies in ms.
         # Give monster damage and types here.
 
-        # Types: amount of different monster types per wave. 
+        # Types: amount of different monster types per wave.
         # Frequency: sets how frequenlty new monsters are spawned in that wave.
         self.waves = [
             {'normal': 5, 'fast':2, 'big':0, 'frequency': 500},
             {'normal': 4, 'fast':0, 'big':0, 'frequency': 1000},
             {'normal': 5, 'fast':2, 'big':0, 'frequency': 1000}
         ]
-        self._current_wave = 0
+        self._current_wave = starting_wave
         self._wave_progress = 0
         self.wave_completed = False
         self.previous_spawn_time = self.waves[self._current_wave]['frequency']
@@ -103,3 +103,19 @@ class Controller:
     
     def get_current_wave(self):
         return self.waves[self._current_wave]
+
+    def get_info(self):
+        return self._current_wave
+
+    def reset_waves(self):
+        waves = [
+            {'normal': 5, 'fast':2, 'big':0, 'frequency': 500},
+            {'normal': 4, 'fast':0, 'big':0, 'frequency': 1000},
+            {'normal': 5, 'fast':2, 'big':0, 'frequency': 1000}
+        ]
+        self.waves = waves
+    
+    def reset_current_wave(self):
+        self._current_wave = 0
+
+    

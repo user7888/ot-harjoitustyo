@@ -17,7 +17,7 @@ class Button():
         display.blit(self.image, (self.rect.x, self.rect.y-(self.height//4)))
         #pygame.draw.rect(display, (255, 0, 0), self.rect, 1)
 
-    def checkForInput(self, mouse_position):
+    def check_for_input(self, mouse_position):
         if mouse_position[0] in range(self.rect.left, self.rect.right) and mouse_position[1] in range(self.rect.top, self.rect.bottom):
             return True
         return False

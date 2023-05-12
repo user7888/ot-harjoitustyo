@@ -10,39 +10,28 @@ from utils.pause_menu import PauseMenu
 from utils.end_menu import EndMenu
 from utils.controller import Controller
 from objects.player import Player
-
-MAP = [[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
-       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
-       [0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0,],
-       [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,],
-       [0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1,],
-       [0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1,],
-       [0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1,],
-       [0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1,],
-       [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4,]]
-
-CELL_SIZE = 64
-
+from utils import setup
 
 def main():
-    height = len(MAP)
-    width = len(MAP[0])
-    side_menu_width = 300
-
-    display = pygame.display.set_mode((width * CELL_SIZE + side_menu_width, height * CELL_SIZE))
+    display = pygame.display.set_mode((setup.WIDTH * setup.CELL_SIZE + setup.SIDE_MENU_WIDTH,
+                                       setup.HEIGHT * setup.CELL_SIZE))
     pygame.display.set_caption("Tower Defense")
     pygame.font.init()
+    game_save = setup.load_save()
+    controller = Controller(game_save.wave_state())
+    player = Player(game_save.get_player_life(),
+                    game_save.get_player_gold())
 
-
-    # Form all objects.
-    controller = Controller()
-    player = Player()
-    game_map = Map(MAP, CELL_SIZE, display, controller, player)
+    game_map = Map(game_save.map_state(),
+                   setup.CELL_SIZE,
+                   display,
+                   controller,
+                   player)
+    
     event_queue = EventQueue()
     renderer = Renderer(display, game_map)
     clock = Clock()
-
-    main_menu = MainMenu(clock, event_queue, display, controller)
+    main_menu = MainMenu(clock, event_queue, display, controller, game_map, player)
     pause_menu = PauseMenu(clock, event_queue, display, controller)
     end_menu = EndMenu(clock, event_queue, display, controller)
     main_ui = BuildMenu(clock, event_queue, display, controller, game_map, player)
@@ -58,10 +47,8 @@ def main():
                          player,
                          main_ui)
 
-    # Start game.
     pygame.init()
     game_loop.start()
-
 
 if __name__ == "__main__":
     main()

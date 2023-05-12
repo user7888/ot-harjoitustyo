@@ -1,15 +1,14 @@
 class Player():
-    def __init__(self):
-        self.gold = 200
-        self.life_total = 20
+    def __init__(self, player_life, player_gold):
+        self.life_total = player_life
+        self.gold = player_gold
     
     def buy(self, amount):
         if self.gold - amount >= 0:
             print("used gold", amount)
             self.gold -= amount
             return True
-        else:
-            return False
+        return False
 
     def damage_player(self, damage):
         self.life_total -= damage
@@ -26,6 +25,5 @@ class Player():
     def is_alive(self):
         if self.life_total > 0:
             return  True
-        else:
-            return False
+        return False
     
