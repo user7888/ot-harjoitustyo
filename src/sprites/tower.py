@@ -36,8 +36,7 @@ class Tower(pygame.sprite.Sprite):
         self.time_of_previous_shooting = 0
         self.selected = False
 
-    def tower_was_clicked(self):
-        mouse_position = pygame.mouse.get_pos()
+    def check_for_input(self, mouse_position):
         print('checked for tower clik')
 
         if mouse_position[0] in range(self.rect.left, self.rect.right) and mouse_position[1] in range(self.rect.top, self.rect.bottom):

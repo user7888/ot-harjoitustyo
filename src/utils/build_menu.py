@@ -140,30 +140,29 @@ class BuildMenu():
     def _back_to_default(self, message):
         self.current_state = 'default'
         self.desc = message
+
+    def _back_to_state(self, state, message):
+        self.current_state = state
+        self.desc = message
  
     def handle_game_map_click(self, mouse_position, player):
-        towers = self.game_map.towers
-
         if self.current_state == 'building':
             response = self.game_map.place_tower(mouse_position, self.chosen_tower)
             if response  == 'Tower built successfully':
-                self._back_to_default(response)
+                self._back_to_state('default', response)
                 return
             if response == 'Not enough gold':
-                self._back_to_default(response)
-        
+                self._back_to_state('default', response)
+            if response == "Can't build here":
+                self._back_to_state('building', response)
+
         if self.current_state == 'default':
-            for tower in towers:
-                tower_click = tower.tower_was_clicked()
-                if tower_click:
-                    self.game_map.set_selected_tower()
-        
+            self.game_map.select_tower(mouse_position)
+
         if self.current_state == 'selling':
-            for tower in towers:
-                tower_click = tower.tower_was_clicked()
-                if tower_click:
-                    tower.delete()
-                    self._back_to_default('')
+            response = self.game_map.sell_tower(mouse_position)
+            if response:
+                self._back_to_default(response)
 
     # Render function
     def draw(self):

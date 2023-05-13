@@ -9,6 +9,9 @@ class Player():
             self.gold -= amount
             return True
         return False
+    
+    def increase_gold(self, amount):
+        self.gold += amount
 
     def damage_player(self, damage):
         self.life_total -= damage

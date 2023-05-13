@@ -99,7 +99,7 @@ class Map:
         for projectile in self.projectiles:
             projectile_hit = projectile.update()
             if projectile_hit is True:
-                projectile.resolve_hit(current_time)
+                projectile.resolve_hit(current_time, self.player)
 
         for tower in self.towers:
             if tower.should_shoot(current_time):
@@ -112,20 +112,19 @@ class Map:
 
     def place_tower(self, mouse_position, tower_type):
         # new mouse position tests.
+        cell_x = mouse_position[0] // 64
+        cell_y = mouse_position[1] // 64
         if mouse_position[0] > 768:
             return False
+        
+        cell_content = self.return_cell_content(cell_y, cell_x)
+        if cell_content != 1:
+            return "Can't build here"
 
         if not self.player.buy(stats.tower_types[tower_type]['cost']):
             return 'Not enough gold'
 
-        # Select correct cell
-        cell_x = mouse_position[0] // 64
-        cell_y = mouse_position[1] // 64
-        #print("mouse click pixel", mouse_position)
-        #print("mouse click cell", cell_x, cell_y)
-        #self.level_map[cell_y][cell_x] = 3
         new_tower = Tower(tower_type, cell_x * self.cell_size, cell_y * self.cell_size)
-        # Tower type checks
         if new_tower.type == 'arrow':
             self.level_map[cell_y][cell_x] = 4
         elif new_tower.type == 'wizard':
@@ -137,9 +136,10 @@ class Map:
         self.all_sprites.add(new_tower)
         return 'Tower built successfully'
 
-    def set_selected_tower(self):
+    def select_tower(self, mouse_position):
         for tower in self.towers:
-            if tower.selected is True:
+            tower_click = tower.check_for_input(mouse_position)
+            if tower_click:
                 self.selected_tower['active'] = True
                 self.selected_tower['tower'] = tower
 
@@ -147,9 +147,16 @@ class Map:
         self.selected_tower['active'] = False
         for tower in self.towers:
             tower.deselect_tower()
+    
+    def sell_tower(self, mouse_position):
+        for tower in self.towers:
+            tower_click = tower.check_for_input(mouse_position)
+            if tower_click:
+                self.player.increase_gold(tower.tower_types[tower.type]['sell_value'])
+                tower.delete()
+                return 'Tower sold successfully'
+        return False
 
-    # move hover effect to its sprite,
-    # update function
     def _create_hover_effect(self):
         mouse_position = pygame.mouse.get_pos()
         cell_x = mouse_position[0] // 64
@@ -178,4 +185,13 @@ class Map:
     
     def reset_map(self, clear_map):
         self.level_map = clear_map
+        for tower in self.towers:
+            tower.delete()
         self._initialize_sprites(self.level_map)
+    
+    def return_cell_content(self, wanted_y, wanted_x):
+        for y_cell in range(self.map_size['height']):
+            for x_cell in range(self.map_size['width']):
+                if y_cell == wanted_y and x_cell == wanted_x:
+                    return self.level_map[y_cell][x_cell]
+        return False

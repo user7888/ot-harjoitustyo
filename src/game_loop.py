@@ -89,9 +89,9 @@ class GameLoop:
     def _render(self):
         self._renderer.render()
     
-    # test write something to database
+    # Tallennuksen siirto controlleriin?
     def _exit_game(self):
-        # here is str...........
+        print("made  a save")
         map_state = self._map.get_level_map()
         wave_state = self.controller.get_info()
         print("wave state from exit", wave_state)

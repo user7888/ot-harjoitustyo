@@ -74,16 +74,16 @@ class Projectile(pygame.sprite.Sprite):
     
     # 'damage service' for monster
 
-    def resolve_hit(self, current_time):
+    def resolve_hit(self, current_time, player):
         # Check for area of effect
         if self.types[self.type]['effect']['area'] > 0:
             for monster in self.all_monsters:
                 distance = math.hypot(self.rect.x - monster.rect.x, self.rect.y - monster.rect.y)
                 if distance < self.types[self.type]['effect']['area']:
                     print("hit monster with aoe")
-                    monster.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time)
+                    monster.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time, player)
         else:
-            self.target.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time)
+            self.target.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time, player)
         self.delete()
 
     def area_of_effect(self):

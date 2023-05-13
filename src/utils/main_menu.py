@@ -7,6 +7,7 @@ from pygame.locals import (
     KEYDOWN,
     QUIT,
 )
+import copy
 import pygame
 from utils.button import Button
 import os
@@ -85,12 +86,14 @@ class MainMenu:
     def _handle_start_button(self):
         self.controller.set_state_pre_wave()
         self.game_map.reset_map_sprites()
+        self.game_map.deselect_all_towers()
         self.controller.reset_waves()
     
     def _handle_new_game_button(self):
         self.controller.set_state_pre_wave()
         self.game_map.reset_map_sprites()
-        self.game_map.reset_map(setup.MAP)
+        self.game_map.reset_map(copy.deepcopy(setup.MAP))
+        self.game_map.deselect_all_towers()
         self.controller.reset_waves()
         self.player.gold = 200
         self.player.life_total = 20

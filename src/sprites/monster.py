@@ -15,7 +15,8 @@ class Monster(pygame.sprite.Sprite):
         self.stats = {"damage": self.monster_types[type]["damage"],
                       "movement_speed": self.monster_types[type]["movement_speed"], 
                       "movement_interval": self.monster_types[type]["movement_interval"], 
-                      "hitpoints": self.monster_types[type]["hitpoints"]}
+                      "hitpoints": self.monster_types[type]["hitpoints"],
+                      "gold_reward": self.monster_types[type]["gold_reward"]}
 
         self.type = type
         self.status_effect_time = (0, 0)
@@ -113,13 +114,14 @@ class Monster(pygame.sprite.Sprite):
             else:
                 self.neg_y = False
     
-    def damage(self, damage, effect, current_time):
+    def damage(self, damage, effect, current_time, player):
         self.stats["hitpoints"] -= damage
         if effect["duration"] > 0:
             self.stats['movement_interval'] = effect['slow']
             self.status_effect_time = (current_time, effect["duration"])
 
         if self.stats["hitpoints"] <= 0:
+            player.increase_gold(self.stats["gold_reward"])
             self.delete()
         
         print("monster speed", self.stats['movement_interval'])
