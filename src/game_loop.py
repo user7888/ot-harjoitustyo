@@ -48,11 +48,17 @@ class GameLoop:
                 self.main_menu.start()
                 continue
             if game_state == 'paused':
-                self.controller.set_state_paused()
+                # State sets should be removed right?
+                #self.controller.set_state_paused()
                 self.pause_menu.start()
                 continue
             if not self.player.is_alive():
                 self.controller.set_state_game_over()
+                self.end_menu.start()
+                continue
+            if self.controller.all_waves_completed():
+                print("in game loop")
+                self.controller.set_state_game_won()
                 self.end_menu.start()
                 continue
 

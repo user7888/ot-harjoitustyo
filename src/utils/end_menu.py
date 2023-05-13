@@ -27,8 +27,9 @@ class EndMenu:
 
     def start(self):
         while True:
+            print("in end menu")
             game_state = self.controller.get_game_state()
-            if game_state != 'game over':
+            if game_state not in  ['game over', 'game won']:
                 break
 
             self._handle_events()

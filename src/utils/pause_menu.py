@@ -22,7 +22,6 @@ class PauseMenu:
         self.display = display
         self.controller = controller
 
-
         self.screen_title = Button(270, 0, pygame.image.load(
             os.path.join(dirname, "..", "assets", "pause_title.png")))
         self.resume_button = Button(270, 150, pygame.image.load(
@@ -42,13 +41,7 @@ class PauseMenu:
                 break
             
             self._handle_events()
-
-            # Old screen was left in the background
-            # and start button drawn over it. Now
-            # background is filled with black.
             self.display.fill((0, 0, 0))
-
-            # Render buttons as a group?
             self.mouse_position = pygame.mouse.get_pos()
             self.screen_title.render(self.display)
             self.resume_button.render(self.display)
@@ -78,8 +71,13 @@ class PauseMenu:
     def _handle_pygame_quit(self):
         self.controller.set_state_terminated()
     
+    # Resume button needs to set the game state
+    # to what ever the state was before pause
     def _handle_resume_button(self):
-        self.controller.set_state_running()
+        if self.controller.get_previous_game_state() == 'pre wave':
+            self.controller.set_state_pre_wave()
+        elif self.controller.get_previous_game_state() == 'running':
+            self.controller.set_state_running()
     
     def _handle_exit_button(self):
         self.controller.set_state_main_menu()

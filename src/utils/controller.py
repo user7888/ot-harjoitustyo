@@ -6,8 +6,10 @@ class Controller:
                        'pre wave': 'Game is in pre wave state',
                        'paused': 'Game is in pause menu',
                        'terminated': 'Game is exiting',
-                       'game over': 'Game over'}
+                       'game over': 'Game over',
+                       'game won': 'Game won'}
         self._game_state = 'initialized'
+        self._previous_game_state = None
         
         # Amount of enemies, frequency of enemies in ms.
         # Give monster damage and types here.
@@ -27,39 +29,52 @@ class Controller:
     def get_game_state(self):
         return self._game_state
 
+    def get_previous_game_state(self):
+        return self._previous_game_state
+
     def get_game_states(self):
         return self.states
 
-    # Single set state function with
-    # state given in parameter
     def set_state_initialized(self):
+        self._previous_game_state = self._game_state
         self._game_state = 'initialized'
         print("game state set >", self._game_state)
 
     def set_state_main_menu(self):
+        self._previous_game_state = self._game_state
         self._game_state = 'main menu'
         print("game state set >", self._game_state)
 
     def set_state_running(self):
+        self._previous_game_state = self._game_state
         self._game_state = 'running'
         print("game state set >", self._game_state)
 
     def set_state_paused(self):
+        self._previous_game_state = self._game_state
         self._game_state = 'paused'
         print("game state set >", self._game_state)
-    
+
     def set_state_pre_wave(self):
+        self._previous_game_state = self._game_state
         self._game_state = 'pre wave'
         print("game state set >", self._game_state)
 
     def set_state_terminated(self):
+        self._previous_game_state = self._game_state
         self._game_state = 'terminated'
         print("game state set >", self._game_state)
-    
+
     def set_state_game_over(self):
+        self._previous_game_state = self._game_state
         self._game_state = 'game over'
         print("game state set >", self._game_state)
-    
+
+    def set_state_game_won(self):
+        self._previous_game_state = self._game_state
+        self._game_state = 'game won'
+        print("game state set >", self._game_state)
+
     def should_spawn_monster(self, current_time):
         # Time of previous spawn time is
         # updated in the game map module.
@@ -94,7 +109,8 @@ class Controller:
     def update_game_state(self, monsters):
         if self._game_state == 'running' and self.wave_completed and len(monsters) == 0:
             self._game_state = 'pre wave'
-            if self._current_wave+1 < len(self.waves):
+            # change: < to <=. Bugs?
+            if self._current_wave+1 <= len(self.waves):
                 self._current_wave += 1
                 self.wave_completed = False
                 self._wave_progress = 0
@@ -106,6 +122,12 @@ class Controller:
 
     def get_info(self):
         return self._current_wave
+
+    def all_waves_completed(self):
+        #print("current wave:", self._current_wave, "len of waves:", len(self.waves))
+        if self._current_wave >= len(self.waves):
+            return True
+        return False
 
     def reset_waves(self):
         waves = [
