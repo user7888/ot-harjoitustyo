@@ -1,10 +1,7 @@
 import os
 import pygame
 
-# Location of this file
 dirname = os.path.dirname(__file__)
-
-# Inherit the Sprite-class
 
 class HoverOutline(pygame.sprite.Sprite):
     """A class for hover effect of the mouse cursor, displaying

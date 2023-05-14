@@ -5,7 +5,6 @@ from pygame.locals import (
 )
 import pygame
 from ui.ending_screen import GameEndScreen
-from repositories.save_repository import save_repository
 
 FPS = 60
 dirname = os.path.dirname(__file__)
@@ -80,8 +79,6 @@ class GameLoop:
                 self.main_menu.start()
                 continue
             if game_state == 'paused':
-                # State sets should be removed right?
-                #self.controller.set_state_paused()
                 self.pause_menu.start()
                 continue
             if not self.player.is_alive():

@@ -48,9 +48,20 @@
 | 6.5   | 1h   | Poison-torni ja Hirv. mov. |
 | 8.5   | 3h   | Side menu päivitykset      |
 | 8.5   | 1h   | Game end screen            |
+| 9.5   | 2h   | Pylint virheet ja refakt.  |
+| 10.5  | 1h   | Pylint virheet ja refakt.  |
+| 10.5  | 3h   | Tallennustoiminto          |
+| 11.5  | 3h   | Tallennustoiminto          |
+| 11.5  | 1h   | Muutokset tall. toim. vart.|
+| 11.5  | 1h   | Pelin resetointi           |
+| 11.5  | 1h   | Dokumentaatio              |
+| 12.5  | 3h   | Dokumentaatio              |
+| 12.5  | 2h   | Testikattavuuden parannus  |
+| 13.5  | 3h   | Dokumentaatio              |
+| 14.5  | 3h   | Dokumentaatio ja viimeistely|
 
 |       | Yht. |                            |
-|       | 58.5h|                            |
+|       | 79.5h|                            |
 
 
 

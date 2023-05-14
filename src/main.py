@@ -27,15 +27,13 @@ def main():
                    display,
                    controller,
                    player)
-    
+
     event_queue = EventQueue()
     renderer = Renderer(display, game_map)
     clock = Clock()
     main_menu = MainMenu(clock, event_queue, display, controller, game_map, player)
     pause_menu = PauseMenu(clock, event_queue, display, controller)
-    end_menu = GameEndScreen(clock, event_queue, display, controller)
     main_ui = MainUI(clock, event_queue, display, controller, game_map, player)
-    end_menu = GameEndScreen(clock, event_queue, display, controller)
 
     game_loop = GameLoop(game_map,
                          clock,

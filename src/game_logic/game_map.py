@@ -47,8 +47,6 @@ class GameMap:
         """
         self.cell_size = cell_size
         self.level_map = map_layout
-        print("early level_map", type(self.level_map))
-        print("early map_layout (parameter)", map_layout)
         self.display = display
         self.controller = controller
         self.player = player
@@ -238,12 +236,6 @@ class GameMap:
             current_time: Current game time.
         """
         if self.controller.should_spawn_monster(current_time):
-            # new_monster = Monster(self.controller.get_next_monster_type(), -20, 0)
-            # self.monsters.add(new_monster)
-            # self.all_sprites.add(self.monsters)
-            # print("monster spawned")
-            # self.controller.set_previous_spawn_time(current_time)
-
             new_monster_type = self.controller.get_next_monster_type()
             if not None:
                 monster = Monster(new_monster_type, -20, 0)

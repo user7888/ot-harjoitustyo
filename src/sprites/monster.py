@@ -173,8 +173,6 @@ class Monster(pygame.sprite.Sprite):
         Args:
             current_time: Used for duration of the effect.
         """
-        # Time of previous shooting is
-        # updated in the game map module.
         if current_time - self.status_effect_time[0] >= self.status_effect_time[1]:
             self.stats['movement_interval'] = self.monster_types[self.type]['movement_interval']
 

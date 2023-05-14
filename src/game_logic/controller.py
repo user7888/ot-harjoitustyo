@@ -55,42 +55,34 @@ class GameStateController:
     def set_state_initialized(self):
         self._previous_game_state = self._game_state
         self._game_state = 'initialized'
-        print("game state set >", self._game_state)
 
     def set_state_main_menu(self):
         self._previous_game_state = self._game_state
         self._game_state = 'main menu'
-        print("game state set >", self._game_state)
 
     def set_state_running(self):
         self._previous_game_state = self._game_state
         self._game_state = 'running'
-        print("game state set >", self._game_state)
 
     def set_state_paused(self):
         self._previous_game_state = self._game_state
         self._game_state = 'paused'
-        print("game state set >", self._game_state)
 
     def set_state_pre_wave(self):
         self._previous_game_state = self._game_state
         self._game_state = 'pre wave'
-        print("game state set >", self._game_state)
 
     def set_state_terminated(self):
         self._previous_game_state = self._game_state
         self._game_state = 'terminated'
-        print("game state set >", self._game_state)
 
     def set_state_game_over(self):
         self._previous_game_state = self._game_state
         self._game_state = 'game over'
-        print("game state set >", self._game_state)
 
     def set_state_game_won(self):
         self._previous_game_state = self._game_state
         self._game_state = 'game won'
-        print("game state set >", self._game_state)
 
     def should_spawn_monster(self, current_time):
         """ A function used for the wave system to determine
@@ -168,11 +160,6 @@ class GameStateController:
         save_repository.create_save(new_save)
 
     def reset_waves(self):
-        # waves = [
-        #     {'normal': 5, 'fast':2, 'big':0, 'frequency': 500},
-        #     {'normal': 4, 'fast':2, 'big':0, 'frequency': 1000},
-        #     {'normal': 5, 'fast':2, 'big':0, 'frequency': 1000}
-        # ]
         self.waves = copy.deepcopy(waves)
 
     def reset_current_wave(self):
