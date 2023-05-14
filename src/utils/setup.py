@@ -1,3 +1,4 @@
+import copy
 from repositories.save_repository import save_repository
 from objects.save import Save
 
@@ -28,7 +29,7 @@ def load_save():
     return Save(save_data[0], save_data[1], save_data[2], save_data[3])
 
 def create_new_save():
-    return Save(PLAYER_HEALTH, PLAYER_GOLD, MAP, WAVE)
+    return Save(PLAYER_HEALTH, PLAYER_GOLD, copy.deepcopy(MAP), WAVE)
 
 if __name__ == "__main__":
     load_save()

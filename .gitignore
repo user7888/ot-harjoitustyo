@@ -4,3 +4,5 @@ htmlcov
 muistiinpanot.txt
 ideat.txt
 __pycache__
+data/database.sqlite
+data/test-database.sqlite
