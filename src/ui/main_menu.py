@@ -42,15 +42,15 @@ class MainMenu:
         self.game_map = game_map
         self.player = player
 
-        self.start_button = Button(270, 70, pygame.image.load(
+        self.start_button = Button(390, 70, pygame.image.load(
             os.path.join(dirname, "..", "assets", "start_button22.png")
         ))
 
-        self.new_game_button = Button(270, 200, pygame.image.load(
+        self.new_game_button = Button(390, 200, pygame.image.load(
             os.path.join(dirname, "..", "assets", "new_game_button.png")
         ))
 
-        self.quit_button = Button(270, 330, pygame.image.load(
+        self.quit_button = Button(390, 330, pygame.image.load(
             os.path.join(dirname, "..", "assets", "exit_button.png")
         ))
 
@@ -101,10 +101,8 @@ class MainMenu:
         self.controller.reset_waves()
     
     def _handle_new_game_button(self):
-        print("reset function was called")
         self.controller.set_state_pre_wave()
         self.game_map.reset_map_sprites()
-        print(copy.deepcopy(setup.MAP))
         self.game_map.reset_map(copy.deepcopy(setup.MAP))
         self.game_map.deselect_all_towers()
         self.controller.reset_waves()

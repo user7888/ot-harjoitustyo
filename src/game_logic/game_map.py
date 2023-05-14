@@ -101,13 +101,8 @@ class GameMap:
 
 
     def _set_map_height_width(self):
-        print("map size prints before", len(self.level_map), len(self.level_map[0]))
-        print(self.level_map)
-        print(len(self.level_map))
-        print(type(self.level_map))
         self.map_size['height'] = len(self.level_map)
         self.map_size['width'] = len(self.level_map[0])
-        print("map size prints after", self.map_size['height'], self.map_size['width'])
 
     def update(self, current_time):
         """ This function updates the game map and controlls all of the sprite groups.

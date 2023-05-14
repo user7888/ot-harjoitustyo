@@ -217,7 +217,7 @@ class MainUI():
             self.display.blit(health, (960, 15))
             self.display.blit(tower_info, (815, 135))
 
-        
+
         elif self.current_state == 'select':
             text = self.font.render(self.desc, True, self.green, None)
             self.display.blit(self.background_image, (768, -1))
