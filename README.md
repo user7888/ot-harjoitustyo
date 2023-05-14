@@ -9,9 +9,9 @@ viikkotehtäville.
 [vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)\
 [työaikakirjanpito](dokumentaatio/tuntikirjanpito.md)\
 [changelog](dokumentaatio/changelog.md)\
-[arkkitehtuurikuvaus](dokumentaatio/arkkitehtuuri.md)
-[käyttöohje](dokumentaatio/kayttoohje.md)
-[testausdokumentti](dokumentaatio/testausdokumentti.md)
+[arkkitehtuurikuvaus](dokumentaatio/arkkitehtuuri.md)\
+[käyttöohje](dokumentaatio/kayttoohje.md)\
+[testausdokumentti](dokumentaatio/testausdokumentti.md)\
 
 ## **Käynnistys**
 1. Asenna riippuvuudet
