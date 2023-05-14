@@ -4,16 +4,48 @@ from pygame.locals import (
     KEYDOWN,
 )
 import pygame
-from utils.build_menu import BuildMenu
-from utils.end_menu import EndMenu
+from ui.ending_screen import GameEndScreen
 from repositories.save_repository import save_repository
 
 FPS = 60
 dirname = os.path.dirname(__file__)
 
 class GameLoop:
+    """A class for main game loop. It is started when the application
+    starts. In the while-loop, it uses the GameStateControllers services to check the
+    current game state and based on the response it starts the main menu, pause menu
+    and game ending screen.
+
+    Attributes:
+        map: The game map object.
+        clock: Clock object used for all time based events.
+        renderer: Responsible for rendering the graphics.
+        event_queue: Pygame event queue.
+        display: Pygame display object.
+        controller: GameStateController object.
+        player: The player object.
+        main_menu: The main menu object.
+        pause_menu: The pause menu object.
+        main_ui: The MainUI object
+        end_screen: The GameEndScreen object.
+    """
     def __init__(self, game_map, clock, renderer, event_queue,
                  display, main_menu, pause_menu, controller, player, main_ui):
+        """ Class constructor for creating the GameLoop object.
+
+        Args:
+            map: The game map object.
+            clock: Clock object used for all time based events.
+            renderer: Responsible for rendering the graphics.
+            event_queue: Pygame event queue.
+            display: Pygame display object.
+            controller: GameStateController object.
+            player: The player object.
+            main_menu: The main menu object.
+            pause_menu: The pause menu object.
+            main_ui: The MainUI object
+            end_screen: The GameEndScreen object.
+        """
         self._map = game_map
         self._clock = clock
         self._renderer = renderer
@@ -24,9 +56,9 @@ class GameLoop:
 
         self.main_menu = main_menu
         self.pause_menu = pause_menu
-        self.build_menu = main_ui
+        self.main_ui = main_ui
         self.mouse_position = pygame.mouse.get_pos()
-        self.end_menu = EndMenu(clock, event_queue, display, controller)
+        self.end_screen = GameEndScreen(clock, event_queue, display, controller)
 
 
     def start(self):
@@ -54,32 +86,21 @@ class GameLoop:
                 continue
             if not self.player.is_alive():
                 self.controller.set_state_game_over()
-                self.end_menu.start()
+                self.end_screen.start()
                 continue
             if self.controller.all_waves_completed():
-                print("in game loop")
                 self.controller.set_state_game_won()
-                self.end_menu.start()
+                self.end_screen.start()
                 continue
 
-            # Time/ticks elapsed since game start.
             current_time = self._clock.get_ticks()
-
-            # Update and render
             self._map.update(current_time)
-            # _render() changed to _renderer.render(self.build_menu)
-            self._renderer.render(self.build_menu)
+            self._renderer.render(self.main_ui)
             self._clock.tick(FPS)
-            # Side menu rendering
 
-            #self.build_menu.draw()
-            # Duplicate updates in game loop
-            # and renderer
-            #pygame.display.update()
 
     def _handle_events(self):
         for event in pygame.event.get():
-            # Game is paused with escape key.
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     self.controller.set_state_paused()
@@ -89,21 +110,16 @@ class GameLoop:
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self._map.deselect_all_towers()
-                self.build_menu.check_for_inputs(self.mouse_position, self.player)
-                self.build_menu.handle_game_map_click(self.mouse_position, self.player)
-                
+                self.main_ui.check_for_inputs(self.mouse_position)
+                self.main_ui.handle_game_map_click(self.mouse_position, self.player)
+
     def _render(self):
         self._renderer.render()
-    
-    # Tallennuksen siirto controlleriin?
+
     def _exit_game(self):
-        print("made  a save")
         map_state = self._map.get_level_map()
         wave_state = self.controller.get_info()
-        print("wave state from exit", wave_state)
         player_health = self.player.current_health()
         player_gold = self.player.current_gold()
-
-        save_repository.create_save(map_state, wave_state, player_health, player_gold)
-        print("Saved game state..")
+        self.controller.save_game(map_state, wave_state, player_health, player_gold)
         

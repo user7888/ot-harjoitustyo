@@ -1,14 +1,14 @@
 import pygame
-from game_map import Map
-from game_loop import GameLoop
+from game_logic.game_map import GameMap
+from game_logic.game_loop import GameLoop
 from renderer import Renderer
 from clock import Clock
-from event_queue import EventQueue
-from utils.main_menu import MainMenu
-from utils.build_menu import BuildMenu
-from utils.pause_menu import PauseMenu
-from utils.end_menu import EndMenu
-from utils.controller import Controller
+from game_logic.event_queue import EventQueue
+from ui.main_menu import MainMenu
+from ui.main_ui import MainUI
+from ui.pause_menu import PauseMenu
+from ui.ending_screen import GameEndScreen
+from game_logic.controller import GameStateController
 from objects.player import Player
 from utils import setup
 
@@ -18,11 +18,11 @@ def main():
     pygame.display.set_caption("Tower Defense")
     pygame.font.init()
     game_save = setup.load_save()
-    controller = Controller(game_save.wave_state())
+    controller = GameStateController(game_save.wave_state())
     player = Player(game_save.get_player_life(),
                     game_save.get_player_gold())
 
-    game_map = Map(game_save.map_state(),
+    game_map = GameMap(game_save.map_state(),
                    setup.CELL_SIZE,
                    display,
                    controller,
@@ -33,8 +33,9 @@ def main():
     clock = Clock()
     main_menu = MainMenu(clock, event_queue, display, controller, game_map, player)
     pause_menu = PauseMenu(clock, event_queue, display, controller)
-    end_menu = EndMenu(clock, event_queue, display, controller)
-    main_ui = BuildMenu(clock, event_queue, display, controller, game_map, player)
+    end_menu = GameEndScreen(clock, event_queue, display, controller)
+    main_ui = MainUI(clock, event_queue, display, controller, game_map, player)
+    end_menu = GameEndScreen(clock, event_queue, display, controller)
 
     game_loop = GameLoop(game_map,
                          clock,

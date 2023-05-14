@@ -2,7 +2,7 @@ class Player():
     def __init__(self, player_life, player_gold):
         self.life_total = player_life
         self.gold = player_gold
-    
+
     def buy(self, amount):
         if self.gold - amount >= 0:
             print("used gold", amount)

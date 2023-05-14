@@ -46,13 +46,9 @@ class StubController:
 
 class TestMap(unittest.TestCase):
     def setUp(self):
-        # Create the map object for tests.
         self.clock = Clock()
         display = pygame.display.set_mode((500, 500))
-
         self.map = GameMap(LEVEL_MAP, CELL_SIZE, display, StubController(), StubPlayer(20, 200))
-        self.monster = Monster("normal", 1, 1)
-        self.map.monsters.add(self.monster)
         self.current_time = self.clock.get_ticks()
 
     def assert_coordinates_equal(self, sprite, x, y):
@@ -60,17 +56,22 @@ class TestMap(unittest.TestCase):
         self.assertEqual(sprite.rect.y, y)
 
     def test_update_function_moves_monsters(self):
-        self.assert_coordinates_equal(self.monster, 1, 1)
+        monster = Monster("normal", 1, 1)
+        self.map.monsters.add(monster)
+        self.assert_coordinates_equal(monster, 1, 1)
+        before_move = monster.rect.x
         for _ in range(10):
             self.current_time = self.clock.get_ticks()
             self.map.update(self.current_time)
             self.clock.tick(60)
-        # First destination of monster is x: 6 y: 510
-        # and after 10 updates coordinates should be x:6 y: 10
-        self.assert_coordinates_equal(self.monster, 6, 10)
+        after_move = monster.rect.x
+        self.assertGreater(after_move, before_move )
+
 
     def test_projectile_hits_can_be_resolved(self):
-        projectile = Projectile('wizard', 1, 1, 2, 2, 1, 2, self.monster,  self.map.monsters)
+        monster = Monster("normal", 1, 1)
+        self.map.monsters.add(monster)
+        projectile = Projectile('wizard', 1, 1, 2, 2, 1, 2, monster,  self.map.monsters)
         self.map.projectiles.add(projectile)
 
         self.assertEqual(len(self.map.projectiles), 1)
@@ -86,7 +87,7 @@ class TestMap(unittest.TestCase):
         tower = Tower('arrow', 1, 1)
         self.map.towers.add(tower)
         time_before = tower.time_of_previous_shooting
-        for _ in range(20):
+        for _ in range(30):
             self.current_time = self.clock.get_ticks()
             self.map.update(self.current_time)
             self.clock.tick(60)

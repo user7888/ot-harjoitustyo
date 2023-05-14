@@ -1,15 +1,37 @@
-import pygame
 import os
-from utils.button import Button
+import pygame
+from ui.button import Button
 from utils.stats import tower_types
 
 dirname = os.path.dirname(__file__)
 
+class MainUI():
+    """A class for the main ui of the game. It handles most of
+    the user interaction during gameplay and displays a menu
+    system on the right side of the screen used for various
+    actions, such as building towers and starting a new wave.
 
-# Menu size 300x576
-# Game map end: 768
-class BuildMenu():
+    Attributes:
+        clock: Clock object.
+        event_queue: Pygame event queue.
+        display: Pygame display object
+        controller: GameStateController object.
+        game_map: GameMap object.
+        player: The player object.
+        tower_types: Tower types imported from stats module.
+        font: Used for displaying text in UI.
+    """
     def __init__(self, clock, event_queue, display, controller, game_map, player):
+        """ Class constructor for creating the MainUI object.
+
+        Args:
+            clock: Clock object.
+            event_queue: Pygame event queue.
+            display: Pygame display object
+            controller: GameStateController object.
+            game_map: The GameMap object.
+            player: The Player object.
+        """
         self._clock = clock
         self._event_queue = event_queue
         self.display = display
@@ -18,32 +40,25 @@ class BuildMenu():
         self.player = player
         self.tower_types = tower_types
 
-        # Text displayed in build menu.
         self.font = pygame.font.Font("freesansbold.ttf", 14)
         self.white = (255, 255, 255)
         self.green = (0, 255, 0)
         self.blue = (0, 0, 128)
 
-        # Build menu buttons.
-        self.default_button_image = pygame.image.load(
-            os.path.join(dirname, "..", "assets", "default_button2.png"))
-        self.default_button_image = pygame.transform.scale(self.default_button_image, (120, 120))
-        self.default_button = Button(790, 230, self.default_button_image)
-
         self.sell_button_image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "sell_button2.png"))
         self.sell_button_image = pygame.transform.scale(self.sell_button_image, (120, 120))
-        self.sell_button = Button(925, 230, self.sell_button_image)
+        self.sell_button = Button(790, 230, self.sell_button_image)
 
         self.build_button_image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "build_button2.png"))
         self.build_button_image = pygame.transform.scale(self.build_button_image, (120, 120))
-        self.build_button = Button(790, 320, self.build_button_image)
+        self.build_button = Button(925, 233, self.build_button_image)
 
         self.start_button_image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "start_button2.png"))
         self.start_button_image = pygame.transform.scale(self.start_button_image, (120, 120))
-        self.start_button = Button(925, 320, self.start_button_image)
+        self.start_button = Button(860, 320, self.start_button_image)
 
         self.arrow_button_image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "arrow_button2.png"))
@@ -133,10 +148,10 @@ class BuildMenu():
         self.desc = "Poison tower selected"
         self.hint = "Click on a tile to build a tower"
         self.text = f"Tower cost {self.tower_types['poison']['cost']} "
-    
+
     def handle_back_button(self):
         self._back_to_default('')
-    
+
     def _back_to_default(self, message):
         self.current_state = 'default'
         self.desc = message
@@ -144,7 +159,7 @@ class BuildMenu():
     def _back_to_state(self, state, message):
         self.current_state = state
         self.desc = message
- 
+
     def handle_game_map_click(self, mouse_position, player):
         if self.current_state == 'building':
             response = self.game_map.place_tower(mouse_position, self.chosen_tower)
@@ -164,14 +179,11 @@ class BuildMenu():
             if response:
                 self._back_to_default(response)
 
-    # Render function
     def draw(self):
-        # rendering based on states causes bugs
         if self.current_state == 'default' or self.current_state == 'selling':
             text = self.font.render(self.desc, True, self.green, None)
             self.display.blit(self.background_image, (768, -1))
             self.display.blit(text, (815, 80))
-            self.default_button.render(self.display)
             self.sell_button.render(self.display)
             self.build_button.render(self.display)
             self.start_button.render(self.display)
@@ -223,26 +235,18 @@ class BuildMenu():
             self.display.blit(gold, (795, 15))
             self.display.blit(health, (960, 15))
 
-    # 1. check for inputs.
-    # 2. handle button click
-    # 3. call for actual function
-    def check_for_inputs(self, mouse_position, player):
-        # selling state and selling button can cause bugs
+    def check_for_inputs(self, mouse_position):
         if self.current_state == 'default':
-            if self.default_button.check_for_input(mouse_position):
-                self.handle_default_button(player)
-            elif self.sell_button.check_for_input(mouse_position):
+            if self.sell_button.check_for_input(mouse_position):
                 self.handle_sell_button()
             elif self.build_button.check_for_input(mouse_position):
                 self.handle_build_button()
             elif self.start_button.check_for_input(mouse_position):
                 self.handle_start_button()
             return
-        
+
         if self.current_state == 'selling':
-            if self.default_button.check_for_input(mouse_position):
-                self.handle_default_button(player)
-            elif self.sell_button.check_for_input(mouse_position):
+            if self.sell_button.check_for_input(mouse_position):
                 self.handle_sell_button()
             elif self.build_button.check_for_input(mouse_position):
                 self.handle_build_button()

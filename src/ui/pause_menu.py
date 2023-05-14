@@ -8,7 +8,7 @@ from pygame.locals import (
     QUIT,
 )
 import pygame
-from utils.button import Button
+from ui.button import Button
 import os
 
 dirname = os.path.dirname(__file__)
@@ -16,7 +16,28 @@ FPS = 60
 
 
 class PauseMenu:
+    """A class for the pause menu. A simple menu with
+    "Resume"-button for continueing the game and an
+    "Exit"-button for exiting to main menu.
+
+    Attributes:
+        clock: Clock object.
+        event_queue: Pygame event queue.
+        display: Pygame display object
+        controller: GameStateController object.
+        screen_title: Screen title.
+        resume_button: Exits from the pause menu.
+        exit_button: Exits to main menu.
+    """
     def __init__(self, clock, event_queue, display, controller):
+        """ Class constructor for creating the PauseMenu object.
+
+        Args:
+            clock: Clock object.
+            event_queue: Pygame event queue.
+            display: Pygame display object
+            controller: GameStateController object.
+        """
         self._clock = clock
         self._event_queue = event_queue
         self.display = display
@@ -30,9 +51,7 @@ class PauseMenu:
         self.exit_button = Button(270, 300, pygame.image.load(
             os.path.join(dirname, "..", "assets", "exit_button.png")
         ))
-
         self.mouse_position = pygame.mouse.get_pos()
-        self.menu_state = 'Empty'
 
     def start(self):
         while True:
@@ -52,18 +71,14 @@ class PauseMenu:
 
     def _handle_events(self):
         for event in pygame.event.get():
-            # Handle the event when game is
-            # exited using pygame quit.
             if event.type == pygame.QUIT:
                 self._handle_pygame_quit()
                 return False
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                # Handle resume button event.
                 if self.resume_button.check_for_input(self.mouse_position):
                     self._handle_resume_button()
                     return False
-                # Handle exit button event.
                 if self.exit_button.check_for_input(self.mouse_position):
                     self._handle_exit_button()
                     return False
@@ -71,8 +86,6 @@ class PauseMenu:
     def _handle_pygame_quit(self):
         self.controller.set_state_terminated()
     
-    # Resume button needs to set the game state
-    # to what ever the state was before pause
     def _handle_resume_button(self):
         if self.controller.get_previous_game_state() == 'pre wave':
             self.controller.set_state_pre_wave()

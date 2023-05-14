@@ -9,7 +9,7 @@ from pygame.locals import (
 )
 import copy
 import pygame
-from utils.button import Button
+from ui.button import Button
 import os
 from utils import setup
 
@@ -17,7 +17,33 @@ dirname = os.path.dirname(__file__)
 FPS = 60
 
 class MainMenu:
+    """A class for the main menu of the game. Through it, the
+    user can start the game using "Start"-button, start a new using
+    the "New game"-button and exit the game using the "Exit"-button.
+
+    Attributes:
+        clock: Clock object.
+        event_queue: Pygame event queue.
+        display: Pygame display object
+        controller: GameStateController object.
+        game_map: GameMap object.
+        player: The player object.
+        start_button: Starts the game.
+        new_game_button: Starts a new game.
+        quit_button: Closes the game.
+    """
+    
     def __init__(self, clock, event_queue, display, controller, game_map, player):
+        """ Class constructor for creating the GameEndScreen object.
+
+        Args:
+            clock: Clock object.
+            event_queue: Pygame event queue.
+            display: Pygame display object
+            controller: GameStateController object.
+            game_map: The GameMap object.
+            player: The Player object.
+        """
         self._clock = clock
         self._event_queue = event_queue
         self.display = display
@@ -38,7 +64,6 @@ class MainMenu:
         ))
 
         self.mouse_position = None
-        self.menu_state = 'Empty'
 
     def start(self):
         while True:
@@ -46,13 +71,8 @@ class MainMenu:
             if game_state != 'main menu':
                 break
             self._handle_events()
-            
-            # Old screen was left in the background
-            # and start button drawn over it. Now
-            # background is filled with black.
             self.display.fill((0, 0, 0))
 
-            # Render buttons as a group?
             self.mouse_position = pygame.mouse.get_pos()
             self.start_button.render(self.display)
             self.new_game_button.render(self.display)
@@ -90,8 +110,10 @@ class MainMenu:
         self.controller.reset_waves()
     
     def _handle_new_game_button(self):
+        print("reset function was called")
         self.controller.set_state_pre_wave()
         self.game_map.reset_map_sprites()
+        print(copy.deepcopy(setup.MAP))
         self.game_map.reset_map(copy.deepcopy(setup.MAP))
         self.game_map.deselect_all_towers()
         self.controller.reset_waves()

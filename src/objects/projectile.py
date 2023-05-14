@@ -12,19 +12,15 @@ class Projectile(pygame.sprite.Sprite):
         self.speed = speed
         self.types = projectile_types
         self.type = type
-        # Target is a monster sprite
         self.target = target
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", f'{type}_projectile.png')
         )
         self.image_scaled = pygame.transform.scale(self.image, (64, 64))
         self.image = self.image_scaled
-
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
-        # AoE tests:
         self.aoe_area = 50
         self.all_monsters = monsters
 
@@ -62,36 +58,20 @@ class Projectile(pygame.sprite.Sprite):
             return True
         
         return False
-    
-    # Damage target function for monster class
-    # and checks for dying?
-
-    # Damge target can cause bugs
-    #def damage_target(self):
-    #    self.target.damage() -= self.types[self.type]['damage']
-    #    if self.target.stats['hitpoints'] <= 0:
-    #        self.target.delete()
-    
-    # 'damage service' for monster
 
     def resolve_hit(self, current_time, player):
         # Check for area of effect
         if self.types[self.type]['effect']['area'] > 0:
-            for monster in self.all_monsters:
-                distance = math.hypot(self.rect.x - monster.rect.x, self.rect.y - monster.rect.y)
-                if distance < self.types[self.type]['effect']['area']:
-                    print("hit monster with aoe")
-                    monster.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time, player)
+            self._area_of_effect(current_time, player)
         else:
             self.target.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time, player)
         self.delete()
 
-    def area_of_effect(self):
+    def _area_of_effect(self, current_time, player):
         for monster in self.all_monsters:
             distance = math.hypot(self.rect.x - monster.rect.x, self.rect.y - monster.rect.y)
             if distance < self.types[self.type]['effect']['area']:
-                print("hit monster with aoe")
-                monster.damage(self.types[self.type]['damage'])
+                monster.damage(self.types[self.type]['damage'], self.types[self.type]['effect'], current_time, player)
         
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))

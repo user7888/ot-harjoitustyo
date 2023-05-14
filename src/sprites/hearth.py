@@ -1,37 +1,47 @@
 import os
 import pygame
 
-# Location of this file
 dirname = os.path.dirname(__file__)
 
-# Inherit the Sprite-class
 class Hearth(pygame.sprite.Sprite):
-    """Class for the Hearth Sprite.
+    """Class for the Hearth Sprite. Located at the end of
+    the game map path. Hearth checks for collision with
+    nearby monsters and damages the player if collision
+    occurs.
 
     Attributes:
-        x: x coordinates for the sprite.
-        y: y coordinates for the sprite.
         player: Player object.
+        x_coordinate: x coordinates for the sprite.
+        y_coordinate: y coordinates for the sprite.
     """
-    def __init__(self, player, x=0, y=0):
+    def __init__(self, player, x_coordinate=0, y_coordinate=0):
+        """ Class constructor for creating a new hearth sprite.
+
+        Args:
+            player: Player object.
+            x_coordinate: x coordinate for the sprite.
+            y_coordinate: y coordinate for the sprite.
+        """
         super().__init__()
         self.image = pygame.image.load(
             os.path.join(dirname, "..", "assets", "hearth.png")
         )
         self.image = pygame.transform.scale(self.image, (64, 64))
         self.player = player
-
-        # Define the size for the object. Use
-        # the dimensions of the monster image.
         self.rect = self.image.get_rect()
-
-        # Coordinates for the object
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.x = x_coordinate
+        self.rect.y = y_coordinate
 
     def collision(self, monsters):
+        """ A function used for checking if monster sprites come
+        in contact with the hearth sprite. If contact occurs, 
+        player is damaged.
+
+        Args:
+            monsters: Monsters sprite group from the GameMap-class.
+        """
         for monster in monsters:
-            if monster.rect.right in range(self.rect.left, self.rect.right) and monster.rect.bottom in range(self.rect.top, self.rect.bottom):
-                # damage player(monster.damage)
-                self.player.damage_player(monster.stats['damage'])
-                monster.delete()
+            if monster.rect.right in range(self.rect.left, self.rect.right):
+                if monster.rect.bottom in range(self.rect.top, self.rect.bottom):
+                    self.player.damage_player(monster.stats['damage'])
+                    monster.delete()
